@@ -1,0 +1,29 @@
+{
+  "resource_id": "bcs000-notes",
+  "file": "bcs000/notes/bcs000-notes.pdf",
+  "sha256": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "created_at": "2026-11-16",
+  "author": "TODO author name",
+  "model": "TODO model name if AI-assisted",
+  "prompt_version": "authoring:1.0",
+  "fact_sheet": "content-ops/facts/bcs000-notes.json",
+  "sources": [
+    {
+      "url": "https://aktu.ac.in/syllabus.html",
+      "licence": "official-facts-only",
+      "use": "facts-only"
+    }
+  ],
+  "review": {
+    "reviewer": "TODO named human reviewer",
+    "date": "2026-11-16",
+    "checklist": "content-ops/reviews/bcs000-notes.json"
+  },
+  "similarity": {
+    "score": 0.08,
+    "report": "content-ops/reviews/bcs000-notes.similarity.json"
+  },
+  "licence": "site-original",
+  "watermark": "AktuSemWise.com - original study material",
+  "takedown_contact": "grievance@aktusemwise.com"
+}

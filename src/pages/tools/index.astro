@@ -1,0 +1,82 @@
+---
+import PageHero from '../../components/PageHero.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Tools' }];
+---
+
+<BaseLayout
+  title="AKTU Exam Tools & Calculators | 100% Free & Private"
+  description="Free, client-side academic tools for AKTU students: CGPA to percentage converter, SGPA calculator, and passing eligibility estimator. Zero login, zero data collection."
+  breadcrumbs={breadcrumbs}
+>
+  <PageHero
+    eyebrow="Academic Utilities"
+    title="Exam Tools, Zero Clutter"
+    description="Fast, browser-based calculators and estimation utilities designed for AKTU regulations. No login, no accounts, and no data leaves your device."
+    breadcrumbs={breadcrumbs}
+  />
+
+  <div class="container-page py-10 md:py-14">
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <a
+        href="/tools/sgpa-calculator/"
+        class="group flex flex-col justify-between rounded-card-lg border border-stone-200 bg-white p-6 shadow-lift transition-colors hover:border-stone-400"
+      >
+        <div>
+          <span class="inline-flex items-center rounded-full bg-cream px-2.5 py-0.5 text-xs font-semibold text-stone-900">
+            Interactive Calculator
+          </span>
+          <h2 class="mt-4 font-display text-2xl text-stone-950">
+            SGPA & Marks Calculator
+          </h2>
+          <p class="mt-2 text-sm leading-relaxed text-stone-600">
+            Add your subjects, credits, and grades to calculate semester SGPA and verify
+            compliance with AKTU's 30% external theory cutoff (≥21/70).
+          </p>
+        </div>
+        <span class="mt-6 inline-flex items-center text-sm font-semibold text-stone-950 group-hover:underline">
+          Open SGPA Calculator →
+        </span>
+      </a>
+
+      <a
+        href="/tools/cgpa-calculator/"
+        class="group flex flex-col justify-between rounded-card-lg border border-stone-200 bg-white p-6 shadow-lift transition-colors hover:border-stone-400"
+      >
+        <div>
+          <span class="inline-flex items-center rounded-full bg-cream px-2.5 py-0.5 text-xs font-semibold text-stone-900">
+            Official Formula
+          </span>
+          <h2 class="mt-4 font-display text-2xl text-stone-950">CGPA to Percentage</h2>
+          <p class="mt-2 text-sm leading-relaxed text-stone-600">
+            Convert your cumulative grade point average (CGPA) into percentage using
+            AKTU's official notification: Percentage = (CGPA - 0.75) × 10.
+          </p>
+        </div>
+        <span class="mt-6 inline-flex items-center text-sm font-semibold text-stone-950 group-hover:underline">
+          Open CGPA Converter →
+        </span>
+      </a>
+
+      <a
+        href="/updates/"
+        class="group flex flex-col justify-between rounded-card-lg border border-stone-200 bg-white p-6 shadow-lift transition-colors hover:border-stone-400"
+      >
+        <div>
+          <span class="inline-flex items-center rounded-full bg-cream px-2.5 py-0.5 text-xs font-semibold text-stone-900">
+            University Circulars
+          </span>
+          <h2 class="mt-4 font-display text-2xl text-stone-950">Rules & Updates Guide</h2>
+          <p class="mt-2 text-sm leading-relaxed text-stone-600">
+            Plain-English guides on AKTU grace marks rules, challenge evaluation stages,
+            and year-back (COP) credit thresholds.
+          </p>
+        </div>
+        <span class="mt-6 inline-flex items-center text-sm font-semibold text-stone-950 group-hover:underline">
+          Browse AKTU Updates →
+        </span>
+      </a>
+    </div>
+  </div>
+</BaseLayout>

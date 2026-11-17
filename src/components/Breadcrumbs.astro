@@ -1,0 +1,40 @@
+---
+import type { BreadcrumbItem } from '../lib/schema';
+
+type Props = {
+  items: BreadcrumbItem[];
+};
+
+const { items } = Astro.props;
+---
+
+{items.length > 0 && (
+  <nav aria-label="Breadcrumb" class="text-sm text-stone-500">
+    <ol class="flex flex-wrap items-center gap-1.5">
+      {items.map((item, index) => {
+        const isLast = index === items.length - 1;
+        return (
+          <li class="flex items-center gap-1.5">
+            {item.href && !isLast ? (
+              <a
+                href={item.href}
+                class="rounded-sm text-stone-600 underline decoration-stone-300 underline-offset-4 hover:text-stone-950"
+              >
+                {item.label}
+              </a>
+            ) : (
+              <span aria-current={isLast ? 'page' : undefined} class="text-stone-800">
+                {item.label}
+              </span>
+            )}
+            {!isLast && (
+              <span aria-hidden="true" class="text-stone-300">
+                /
+              </span>
+            )}
+          </li>
+        );
+      })}
+    </ol>
+  </nav>
+)}

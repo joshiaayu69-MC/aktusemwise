@@ -1,0 +1,59 @@
+# Starter B.Tech branch list.
+# TODO: verify names and aliases against the official AKTU B.Tech branch list before launch.
+# Do not add a branch until it can be verified.
+
+- slug: cse
+  course: btech
+  name: CSE
+  full_name: Computer Science and Engineering
+  aliases: [computer-science, computer-engineering]
+  order: 1
+
+- slug: it
+  course: btech
+  name: IT
+  full_name: Information Technology
+  aliases: [information-technology]
+  order: 2
+
+- slug: ece
+  course: btech
+  name: ECE
+  full_name: Electronics and Communication Engineering
+  aliases: [electronics, electronics-and-communication]
+  order: 3
+
+- slug: ee
+  course: btech
+  name: EE
+  full_name: Electrical Engineering
+  aliases: [electrical, electrical-engineering]
+  order: 4
+
+- slug: me
+  course: btech
+  name: ME
+  full_name: Mechanical Engineering
+  aliases: [mechanical, mechanical-engineering]
+  order: 5
+
+- slug: ce
+  course: btech
+  name: CE
+  full_name: Civil Engineering
+  aliases: [civil, civil-engineering]
+  order: 6
+
+- slug: aiml
+  course: btech
+  name: AIML
+  full_name: Artificial Intelligence and Machine Learning
+  aliases: [ai-ml, artificial-intelligence-machine-learning]
+  order: 7
+
+- slug: cse-ai
+  course: btech
+  name: CSE (AI)
+  full_name: Computer Science and Engineering (Artificial Intelligence)
+  aliases: [cse-artificial-intelligence, computer-science-ai]
+  order: 8

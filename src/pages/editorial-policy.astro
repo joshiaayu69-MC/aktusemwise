@@ -1,0 +1,86 @@
+---
+import LegalLayout from '../layouts/LegalLayout.astro';
+import { SITE } from '../lib/site';
+
+const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Editorial Policy' }];
+---
+
+<LegalLayout
+  title="Editorial policy"
+  description="How we source, write, verify, review, and correct study resources."
+  breadcrumbs={breadcrumbs}
+  updated="16 November 2026"
+>
+  <h2>Purpose</h2>
+  <p>
+    Our goal is a small, trustworthy library of original, exam-focused study material. We
+    prefer a complete subject hub over hundreds of empty pages. Content quality and legal
+    safety come before publishing volume.
+  </p>
+
+  <h2>Source hierarchy</h2>
+  <ol>
+    <li>Official AKTU syllabus, notices, and question-paper portal (facts and links).</li>
+    <li>Open-licensed or public-domain material with clear attribution.</li>
+    <li>Our own original writing, examples, diagrams, questions, and solutions.</li>
+    <li>Contributor material with a written licence and a named reviewer.</li>
+  </ol>
+  <p>
+    We do not use competitor notes, publisher textbooks, coaching material, Telegram or
+    WhatsApp PDFs, or scans with an unknown licence.
+  </p>
+
+  <h2>Clean-room process</h2>
+  <p>
+    We separate fact extraction from writing. The extraction step records only facts such
+    as codes, units, topics, marks, dates, and formulas. The authoring step sees the fact
+    sheet, not the copyrighted prose, and writes original explanations, examples, and
+    diagrams.
+  </p>
+
+  <h2>AI use</h2>
+  <p>
+    AI may help discover sources, extract facts, draft original explanations, generate
+    original diagrams, and run checks. AI does not make the final decision. A human
+    subject expert reviews every published resource for accuracy, coverage, and
+    originality.
+  </p>
+  <p>
+    We do not use AI to rewrite, paraphrase, or re-typeset a copyrighted scan and call it
+    original.
+  </p>
+
+  <h2>Review and provenance</h2>
+  <p>
+    Before publication, a resource must pass a similarity check, a fact check, and a human
+    review. We record the source, licence, reviewer, review date, and file hash. If a
+    resource has no provenance record, it is not published.
+  </p>
+
+  <h2>Corrections and updates</h2>
+  <p>
+    When we find an error, we correct it and update the page. When an official rule
+    changes, we update the page and the "last verified" date. Significant corrections are
+    noted on the page. Report errors through the contact page with a source.
+  </p>
+
+  <h2>Dates and official facts</h2>
+  <p>
+    Dates, circular numbers, eligibility rules, and deadlines are taken from official
+    sources. We link the source and advise readers to confirm before acting. We do not
+    invent dates, papers, subject codes, or "verified" badges.
+  </p>
+
+  <h2>Downloads and advertising</h2>
+  <p>
+    Free resources have no login, countdown, fake download button, or ad interstitial. If
+    ads are enabled, they are clearly separated from the download action. We do not place
+    ads on thin, legal, or error pages.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    Editorial questions and corrections:
+    <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+  </p>
+</LegalLayout>

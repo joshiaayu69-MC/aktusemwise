@@ -1,0 +1,25 @@
+---
+type Props = {
+  title: string;
+  description: string;
+  actionHref?: string;
+  actionLabel?: string;
+};
+
+const { title, description, actionHref, actionLabel } = Astro.props;
+---
+
+<div class="rounded-card-lg border border-dashed border-stone-300 bg-cream/60 px-6 py-10 text-center">
+  <h2 class="font-display text-xl font-normal text-stone-950">{title}</h2>
+  <p class="mx-auto mt-2 max-w-md text-sm leading-relaxed text-stone-600">
+    {description}
+  </p>
+  {actionHref && actionLabel && (
+    <a
+      href={actionHref}
+      class="mt-5 inline-flex h-10 items-center justify-center rounded-full bg-stone-950 px-4 text-sm font-medium text-white transition-colors hover:bg-stone-700"
+    >
+      {actionLabel}
+    </a>
+  )}
+</div>

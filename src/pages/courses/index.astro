@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import { courses, getBranchesForCourse } from '../../lib/taxonomy';
+import { courseUrl } from '../../lib/urls';
+
+const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Courses' }];
+---
+
+<BaseLayout
+  title="Courses"
+  description="Browse AKTU courses and branches. Start with B.Tech, then choose your branch and semester."
+  breadcrumbs={breadcrumbs}
+>
+  <PageHero
+    eyebrow="Browse"
+    title="Courses and branches"
+    description="Choose a course, then a branch and semester. Subject hubs bring the syllabus, notes, papers, and tools together."
+    breadcrumbs={breadcrumbs}
+  />
+
+  <div class="container-page py-10 md:py-14">
+    <div class="grid gap-4 md:grid-cols-2">
+      {courses.map((course) => {
+        const branchCount = getBranchesForCourse(course.slug).length;
+        return (
+          <article class="rounded-card-lg border border-stone-200 bg-white p-6 shadow-lift">
+            <p class="font-mono text-xs text-stone-500">{course.slug.toUpperCase()}</p>
+            <h2 class="mt-2 font-display text-2xl text-stone-950">
+              <a href={courseUrl(course.slug)} class="hover:underline">
+                {course.full_name}
+              </a>
+            </h2>
+            <p class="mt-2 text-sm leading-relaxed text-stone-600">
+              {branchCount} branches · {course.semesters} semesters ·{' '}
+              {course.duration_years} years
+            </p>
+            <a
+              href={courseUrl(course.slug)}
+              class="mt-5 inline-flex h-10 items-center rounded-full bg-stone-950 px-4 text-sm font-medium text-white hover:bg-stone-700"
+            >
+              Open {course.name}
+            </a>
+          </article>
+        );
+      })}
+    </div>
+
+    <div class="mt-10 rounded-card border border-stone-200 bg-cream p-5 text-sm leading-relaxed text-stone-600">
+      <p class="font-semibold text-stone-900">
+        More courses are added only with official data.
+      </p>
+      <p class="mt-1">
+        This site starts with B.Tech. Other AKTU courses will appear when their official
+        syllabus, scheme, and subject codes can be verified.
+      </p>
+    </div>
+  </div>
+</BaseLayout>

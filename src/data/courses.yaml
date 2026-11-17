@@ -1,0 +1,9 @@
+# Starter taxonomy. Verify every course against the official AKTU course list before launch.
+# Add more courses only when you have official data for them.
+
+- slug: btech
+  name: B.Tech
+  full_name: Bachelor of Technology
+  duration_years: 4
+  semesters: 8
+  order: 1

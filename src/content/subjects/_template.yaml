@@ -1,0 +1,32 @@
+# Subject entry template. Copy this file into src/content/subjects/<code>.yaml.
+# Files starting with "_" are ignored by the content loader.
+# Do not publish a subject until it has verified facts, at least one useful resource
+# (or complete syllabus units), a named reviewer, and a provenance record for every PDF.
+
+code: BCS501
+name: Database Management System
+course: btech
+branches: [cse, it, aiml, cse-ai]
+semester: 5
+scheme: 2022-23
+credits: 4
+source_url: https://aktu.ac.in/syllabus.html
+verified: false
+draft: true
+description: >
+  Write a unique 150-300 word overview here. Explain what the subject covers, how the
+  exam is usually structured, which units matter most, and how a student should prepare.
+  Do not copy this text from any website, book, or PDF. Use the clean-room pipeline in
+  note.md: facts -> original writing -> similarity check -> human review.
+syllabus_units:
+  - unit: 1
+    title: Official unit title
+    topics:
+      - Official topic 1
+      - Official topic 2
+resources: []
+faqs: []
+aliases: []
+tags: []
+updated: 2026-11-16
+last_verified: 2026-11-16

@@ -1,0 +1,308 @@
+---
+import Callout from '../../components/Callout.astro';
+import PageHero from '../../components/PageHero.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Tools', href: '/tools/' },
+  { label: 'CGPA calculator' },
+];
+
+const grades = [
+  { label: 'O (10)', value: '10' },
+  { label: 'A+ (9)', value: '9' },
+  { label: 'A (8)', value: '8' },
+  { label: 'B+ (7)', value: '7' },
+  { label: 'B (6)', value: '6' },
+  { label: 'C (5)', value: '5' },
+  { label: 'P (4)', value: '4' },
+  { label: 'F (0)', value: '0' },
+];
+---
+
+<BaseLayout
+  title="AKTU CGPA calculator"
+  description="A free, private CGPA calculator for AKTU students. Add subjects, credits, and grades. No login, no data collection."
+  breadcrumbs={breadcrumbs}
+>
+  <PageHero
+    eyebrow="Tool"
+    title="CGPA calculator"
+    description="Estimate your semester CGPA from your credits and grades. The calculation runs in your browser; nothing is uploaded or stored."
+    breadcrumbs={breadcrumbs}
+  />
+
+  <div class="container-page grid gap-8 py-10 md:py-14 lg:grid-cols-[minmax(0,1fr)_20rem]">
+    <form id="cgpa-form" class="min-w-0" novalidate>
+      <div class="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h2 class="font-display text-2xl text-stone-950">Your subjects</h2>
+          <p class="mt-1 text-sm text-stone-600">
+            Use the credits and grade points from your official scheme.
+          </p>
+        </div>
+        <button
+          type="button"
+          id="add-row"
+          class="inline-flex h-10 items-center rounded-full border border-stone-300 bg-white px-4 text-sm font-medium text-stone-900 shadow-hairline hover:bg-stone-50"
+        >
+          + Add subject
+        </button>
+      </div>
+
+      <div id="rows" class="mt-5 space-y-3">
+        <div class="cgpa-row rounded-card border border-stone-200 bg-white p-4 shadow-lift">
+          <div class="grid gap-3 sm:grid-cols-[1fr_7rem_9rem_auto] sm:items-end">
+            <label class="block text-sm">
+              <span class="mb-1 block font-medium text-stone-700">
+                Subject (optional)
+              </span>
+              <input
+                type="text"
+                name="subject"
+                autocomplete="off"
+                placeholder="e.g. DBMS"
+                class="h-10 w-full rounded-input border border-stone-300 bg-white px-3 text-sm text-stone-900 placeholder:text-stone-400"
+              />
+            </label>
+            <label class="block text-sm">
+              <span class="mb-1 block font-medium text-stone-700">Credits</span>
+              <input
+                type="number"
+                name="credits"
+                min="0.5"
+                max="30"
+                step="0.5"
+                value="4"
+                required
+                inputmode="decimal"
+                class="h-10 w-full rounded-input border border-stone-300 bg-white px-3 text-sm text-stone-900"
+              />
+            </label>
+            <label class="block text-sm">
+              <span class="mb-1 block font-medium text-stone-700">Grade</span>
+              <select
+                name="grade"
+                class="h-10 w-full rounded-input border border-stone-300 bg-white px-3 text-sm text-stone-900"
+              >
+                {grades.map((grade) => (
+                  <option value={grade.value}>{grade.label}</option>
+                ))}
+              </select>
+            </label>
+            <button
+              type="button"
+              data-remove
+              class="inline-flex h-10 items-center justify-center rounded-full border border-stone-200 bg-white px-3 text-sm text-stone-600 hover:border-stone-300 hover:text-stone-950"
+              aria-label="Remove this subject"
+            >
+              Remove
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 flex flex-wrap gap-3">
+        <button
+          type="submit"
+          class="inline-flex h-11 items-center justify-center rounded-full bg-stone-950 px-5 text-base font-medium text-white transition-colors hover:bg-stone-700 active:scale-[0.98]"
+        >
+          Calculate CGPA
+        </button>
+        <button
+          type="reset"
+          class="inline-flex h-11 items-center justify-center rounded-full border border-stone-300 bg-white px-5 text-base font-medium text-stone-900 shadow-hairline hover:bg-stone-50"
+        >
+          Reset
+        </button>
+      </div>
+
+      <div class="mt-8">
+        <Callout tone="warning" title="Check your official grade-point table">
+          <p>
+            This calculator uses a common 10-point mapping (O=10, A+=9, A=8, B+=7, B=6,
+            C=5, P=4, F=0). Your scheme may use different labels or weightings. Confirm
+            with the official AKTU scheme before relying on the result.
+          </p>
+        </Callout>
+      </div>
+    </form>
+
+    <aside class="lg:sticky lg:top-24 lg:self-start">
+      <section class="rounded-card-lg border border-stone-200 bg-cream p-6 shadow-lift">
+        <h2 class="font-condensed text-xs font-bold uppercase tracking-[0.12em] text-stone-500">
+          Estimate
+        </h2>
+        <p
+          class="mt-3 font-display text-5xl text-stone-950"
+          id="cgpa-result"
+          aria-live="polite"
+        >
+          0.00
+        </p>
+        <p class="mt-1 text-sm text-stone-600">CGPA</p>
+        <dl class="mt-5 space-y-2 border-t border-stone-200 pt-4 text-sm">
+          <div class="flex justify-between gap-3">
+            <dt class="text-stone-500">Total credits</dt>
+            <dd class="font-mono text-stone-900" id="total-credits">
+              0
+            </dd>
+          </div>
+          <div class="flex justify-between gap-3">
+            <dt class="text-stone-500">Total grade points</dt>
+            <dd class="font-mono text-stone-900" id="total-points">
+              0
+            </dd>
+          </div>
+          <div class="flex justify-between gap-3">
+            <dt class="text-stone-500">Subjects counted</dt>
+            <dd class="font-mono text-stone-900" id="subject-count">
+              0
+            </dd>
+          </div>
+        </dl>
+        <p class="mt-4 text-xs leading-relaxed text-stone-500">
+          Rows with empty or zero credits are ignored. Nothing is saved after you close
+          the page.
+        </p>
+      </section>
+    </aside>
+  </div>
+
+  <template id="row-template">
+    <div class="cgpa-row rounded-card border border-stone-200 bg-white p-4 shadow-lift">
+      <div class="grid gap-3 sm:grid-cols-[1fr_7rem_9rem_auto] sm:items-end">
+        <label class="block text-sm">
+          <span class="mb-1 block font-medium text-stone-700">Subject (optional)</span>
+          <input
+            type="text"
+            name="subject"
+            autocomplete="off"
+            placeholder="e.g. DBMS"
+            class="h-10 w-full rounded-input border border-stone-300 bg-white px-3 text-sm text-stone-900 placeholder:text-stone-400"
+          />
+        </label>
+        <label class="block text-sm">
+          <span class="mb-1 block font-medium text-stone-700">Credits</span>
+          <input
+            type="number"
+            name="credits"
+            min="0.5"
+            max="30"
+            step="0.5"
+            value="4"
+            required
+            inputmode="decimal"
+            class="h-10 w-full rounded-input border border-stone-300 bg-white px-3 text-sm text-stone-900"
+          />
+        </label>
+        <label class="block text-sm">
+          <span class="mb-1 block font-medium text-stone-700">Grade</span>
+          <select
+            name="grade"
+            class="h-10 w-full rounded-input border border-stone-300 bg-white px-3 text-sm text-stone-900"
+          >
+            {grades.map((grade) => (
+              <option value={grade.value}>{grade.label}</option>
+            ))}
+          </select>
+        </label>
+        <button
+          type="button"
+          data-remove
+          class="inline-flex h-10 items-center justify-center rounded-full border border-stone-200 bg-white px-3 text-sm text-stone-600 hover:border-stone-300 hover:text-stone-950"
+          aria-label="Remove this subject"
+        >
+          Remove
+        </button>
+      </div>
+    </div>
+  </template>
+
+  <script>
+    const form = document.querySelector<HTMLFormElement>('#cgpa-form');
+    const rows = document.querySelector<HTMLElement>('#rows');
+    const rowTemplate = document.querySelector<HTMLTemplateElement>('#row-template');
+    const addButton = document.querySelector<HTMLButtonElement>('#add-row');
+    const result = document.querySelector<HTMLElement>('#cgpa-result');
+    const totalCreditsEl = document.querySelector<HTMLElement>('#total-credits');
+    const totalPointsEl = document.querySelector<HTMLElement>('#total-points');
+    const subjectCountEl = document.querySelector<HTMLElement>('#subject-count');
+
+    if (form && rows && rowTemplate && addButton && result) {
+      const readNumber = (row: Element, name: string) => {
+        const field = row.querySelector<HTMLInputElement | HTMLSelectElement>(
+          `[name="${name}"]`,
+        );
+        if (!field) return Number.NaN;
+        return Number.parseFloat(field.value);
+      };
+
+      const calculate = () => {
+        let totalCredits = 0;
+        let totalPoints = 0;
+        let subjectCount = 0;
+
+        for (const row of rows.querySelectorAll('.cgpa-row')) {
+          const credits = readNumber(row, 'credits');
+          const grade = readNumber(row, 'grade');
+
+          if (!Number.isFinite(credits) || credits <= 0) continue;
+          if (!Number.isFinite(grade)) continue;
+
+          totalCredits += credits;
+          totalPoints += credits * grade;
+          subjectCount += 1;
+        }
+
+        const cgpa = totalCredits > 0 ? totalPoints / totalCredits : 0;
+
+        result.textContent = cgpa.toFixed(2);
+        if (totalCreditsEl) totalCreditsEl.textContent = totalCredits.toFixed(1);
+        if (totalPointsEl) totalPointsEl.textContent = totalPoints.toFixed(1);
+        if (subjectCountEl) subjectCountEl.textContent = String(subjectCount);
+      };
+
+      addButton.addEventListener('click', () => {
+        const fragment = rowTemplate.content.cloneNode(true);
+        rows.append(fragment);
+        const lastRow = rows.lastElementChild;
+        lastRow?.querySelector<HTMLInputElement>('[name="subject"]')?.focus();
+      });
+
+      rows.addEventListener('click', (event) => {
+        const target = event.target;
+        if (!(target instanceof Element)) return;
+        const removeButton = target.closest('[data-remove]');
+        if (!removeButton) return;
+        const row = removeButton.closest('.cgpa-row');
+        if (!row) return;
+
+        if (rows.querySelectorAll('.cgpa-row').length > 1) {
+          row.remove();
+        } else {
+          const subject = row.querySelector<HTMLInputElement>('[name="subject"]');
+          const credits = row.querySelector<HTMLInputElement>('[name="credits"]');
+          const grade = row.querySelector<HTMLSelectElement>('[name="grade"]');
+          if (subject) subject.value = '';
+          if (credits) credits.value = '4';
+          if (grade) grade.value = '10';
+        }
+
+        calculate();
+      });
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        calculate();
+      });
+
+      form.addEventListener('reset', () => {
+        window.setTimeout(calculate, 0);
+      });
+
+      calculate();
+    }
+  </script>
+</BaseLayout>

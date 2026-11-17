@@ -1,0 +1,17 @@
+{
+  "resource_id": "bcs000-notes",
+  "subject_code": "BCS000",
+  "source_url": "https://aktu.ac.in/syllabus.html",
+  "accessed_at": "2026-11-16",
+  "licence": "official-facts-only",
+  "facts": [
+    {
+      "id": "f001",
+      "unit": 1,
+      "topic": "Replace with a syllabus topic",
+      "claim": "A short factual statement supported by the source.",
+      "page": 1,
+      "confidence": "high"
+    }
+  ]
+}

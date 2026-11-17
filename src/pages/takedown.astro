@@ -1,0 +1,82 @@
+---
+import LegalLayout from '../layouts/LegalLayout.astro';
+import { SITE } from '../lib/site';
+
+const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Copyright & Takedown' }];
+---
+
+<LegalLayout
+  title="Copyright and takedown"
+  description="How to report a copyright issue and how we handle complaints, corrections, and removals."
+  breadcrumbs={breadcrumbs}
+  updated="16 November 2026"
+>
+  <p>
+    We respect copyright and publish original or properly licensed material. If you
+    believe a page or file on this site infringes your rights, contact our grievance
+    contact with the details below. We will review the complaint and remove or replace the
+    material where appropriate.
+  </p>
+
+  <h2>Grievance contact</h2>
+  <p>
+    Grievance officer: <strong>TODO: name</strong>
+    <br />
+    Email: <a href={`mailto:${SITE.grievanceEmail}`}>{SITE.grievanceEmail}</a>
+    <br />
+    Response hours: Monday to Friday, 10:00–18:00 IST
+  </p>
+  <p class="text-sm text-stone-500">
+    TODO: publish the grievance officer's name and a monitored contact before launch, as
+    required for intermediaries under India's IT Rules, 2021.
+  </p>
+
+  <h2>What to include in a complaint</h2>
+  <ul>
+    <li>Your name, organisation, and contact details.</li>
+    <li>The exact URL of the disputed page or file.</li>
+    <li>A description of the work you own and the rights you believe are infringed.</li>
+    <li>Proof of ownership or authority to act for the owner.</li>
+    <li>A statement that you have a good-faith belief the use is unauthorised.</li>
+    <li>A statement that the information in your notice is accurate.</li>
+    <li>Your physical or electronic signature.</li>
+  </ul>
+  <p>
+    Do not include personal data about students, passwords, or result credentials. We do
+    not need them to process a copyright complaint.
+  </p>
+
+  <h2>Timelines</h2>
+  <ul>
+    <li>We aim to acknowledge a complete complaint within 24 hours.</li>
+    <li>We aim to review and resolve complaints within 15 days.</li>
+    <li>
+      If we receive a valid court order or government direction, we will remove the
+      material within 36 hours, subject to legal requirements.
+    </li>
+  </ul>
+
+  <h2>What happens next</h2>
+  <p>
+    We may temporarily hide the material while we review it. If the complaint is valid, we
+    remove or replace it and notify the contributor or reviewer. If the complaint is
+    incomplete or disputed, we may ask for more information. We keep a record of
+    complaints, actions, and dates.
+  </p>
+
+  <h2>Counter-response</h2>
+  <p>
+    If you submitted the material and believe the complaint is mistaken, send us your
+    evidence, including the licence or written permission you rely on. We will review it
+    before restoring anything.
+  </p>
+
+  <h2>Repeat infringement</h2>
+  <p>We may restrict or remove contributors who repeatedly submit infringing material.</p>
+
+  <h2>Our own content</h2>
+  <p>
+    If you want to reuse our original material, check the licence on the resource page. If
+    no licence is stated, ask us in writing. Do not re-upload our PDFs as your own.
+  </p>
+</LegalLayout>

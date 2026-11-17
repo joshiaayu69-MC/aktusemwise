@@ -1,0 +1,113 @@
+---
+import '../styles/global.css';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import {
+  buildBreadcrumbList,
+  combineJsonLd,
+  type BreadcrumbItem,
+  type JsonLd,
+} from '../lib/schema';
+import { SITE } from '../lib/site';
+
+type Props = {
+  title: string;
+  description?: string;
+  canonical?: string;
+  image?: string;
+  noindex?: boolean;
+  type?: 'website' | 'article';
+  breadcrumbs?: BreadcrumbItem[];
+  jsonLd?: JsonLd[];
+};
+
+const {
+  title,
+  description = SITE.description,
+  canonical,
+  image = '/og-default.svg',
+  noindex = false,
+  type = 'website',
+  breadcrumbs = [],
+  jsonLd = [],
+} = Astro.props;
+
+const siteUrl = Astro.site ?? new URL(SITE.url);
+const canonicalUrl = new URL(canonical ?? Astro.url.pathname, siteUrl).toString();
+const imageUrl = new URL(image, siteUrl).toString();
+const pageTitle = title.includes(SITE.name) ? title : `${title} | ${SITE.name}`;
+
+const structuredData = combineJsonLd([
+  ...jsonLd,
+  breadcrumbs.length ? buildBreadcrumbList(breadcrumbs, siteUrl.toString()) : undefined,
+]);
+---
+
+<!doctype html>
+<html lang={SITE.language}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#fdfcfc" />
+    <meta name="color-scheme" content="light" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:locale" content={SITE.locale} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+
+    {structuredData.map((item) => (
+      <script
+        type="application/ld+json"
+        set:html={JSON.stringify(item).replace(/</g, '\\u003c')}
+      />
+    ))}
+    <slot name="head" />
+  </head>
+  <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-stone-950 focus:px-4 focus:py-2 focus:text-sm focus:text-white"
+    >
+      Skip to content
+    </a>
+
+    <div
+      class="border-b border-stone-200 bg-stone-950 text-stone-50"
+      data-pagefind-ignore
+    >
+      <div class="container-page flex min-h-9 flex-wrap items-center justify-between gap-2 py-1.5 text-xs">
+        <p>Independent student resource. Not affiliated with AKTU.</p>
+        <a
+          href="/disclaimer/"
+          class="rounded-sm text-stone-300 underline decoration-stone-600 underline-offset-4 hover:text-white"
+        >
+          Read the disclaimer
+        </a>
+      </div>
+    </div>
+
+    <Header />
+
+    <main id="main" data-pagefind-body={noindex ? undefined : ''}>
+      <slot />
+    </main>
+
+    <Footer />
+  </body>
+</html>

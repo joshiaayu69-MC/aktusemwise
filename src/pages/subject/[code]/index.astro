@@ -1,0 +1,483 @@
+---
+import Badge from '../../../components/Badge.astro';
+import Callout from '../../../components/Callout.astro';
+import EmptyState from '../../../components/EmptyState.astro';
+import PageHero from '../../../components/PageHero.astro';
+import ResourceCard from '../../../components/ResourceCard.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getPublishedSubjects } from '../../../lib/content';
+import type { Resource } from '../../../lib/schemas';
+import { buildFaqPage, buildLearningResource, type JsonLd } from '../../../lib/schema';
+import { SITE } from '../../../lib/site';
+import { getBranch, getCourse, getScheme } from '../../../lib/taxonomy';
+import { branchUrl, courseUrl, semesterUrl, subjectUrl } from '../../../lib/urls';
+
+export async function getStaticPaths() {
+  const subjects = await getPublishedSubjects();
+  return subjects.map((subject) => ({
+    params: { code: subject.data.code.toLowerCase() },
+    props: { subject },
+  }));
+}
+
+const { subject } = Astro.props;
+const data = subject.data;
+
+const course = getCourse(data.course);
+const firstBranch = getBranch(data.course, data.branches[0]);
+const scheme = getScheme(data.scheme);
+const siteUrl = (Astro.site ?? new URL(SITE.url)).toString();
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Courses', href: '/courses/' },
+  ...(course ? [{ label: course.name, href: courseUrl(course.slug) }] : []),
+  ...(firstBranch
+    ? [{ label: firstBranch.name, href: branchUrl(data.course, firstBranch.slug) }]
+    : []),
+  {
+    label: `Sem ${data.semester}`,
+    href: semesterUrl(data.course, firstBranch?.slug ?? data.branches[0], data.semester),
+  },
+  { label: data.code },
+];
+
+type ResourceGroup = {
+  id: string;
+  title: string;
+  types: Resource['type'][];
+};
+
+const groups: ResourceGroup[] = [
+  { id: 'notes', title: 'Unit notes', types: ['notes'] },
+  { id: 'pyq', title: 'Previous year papers', types: ['pyq'] },
+  { id: 'solutions', title: 'Solved papers', types: ['solution'] },
+  { id: 'model-papers', title: 'Model papers', types: ['model-paper'] },
+  {
+    id: 'question-banks',
+    title: 'Question banks and important questions',
+    types: ['question-bank', 'important-questions'],
+  },
+  { id: 'lab-viva', title: 'Lab files and viva', types: ['lab-file', 'viva'] },
+  { id: 'syllabus-files', title: 'Syllabus files', types: ['syllabus'] },
+];
+
+const groupedResources = groups
+  .map((group) => ({
+    ...group,
+    items: data.resources.filter((resource) => group.types.includes(resource.type)),
+  }))
+  .filter((group) => group.items.length > 0);
+
+const hasResources = data.resources.length > 0;
+
+const totalTopicQuestions = data.syllabus_units.reduce(
+  (sum, unit) => sum + (unit.questions?.length ?? 0),
+  0,
+);
+
+const learningResource = buildLearningResource({
+  name: `${data.code} ${data.name} notes, papers and syllabus`,
+  description: data.description.slice(0, 500),
+  url: subjectUrl(data.code),
+  siteUrl,
+  subjectCode: data.code,
+  resources: data.resources.map((resource) => ({
+    title: resource.title,
+    type: resource.type,
+  })),
+});
+
+const faqPage = buildFaqPage(data.faqs);
+
+const jsonLd = [learningResource, faqPage].filter((item): item is JsonLd =>
+  Boolean(item),
+);
+---
+
+<BaseLayout
+  title={`${data.code} ${data.name} notes, PYQ and syllabus`}
+  description={`AKTU ${data.code} ${data.name} study resources: verified syllabus units, original notes, previous year papers, solved papers, and FAQs.`}
+  breadcrumbs={breadcrumbs}
+  jsonLd={jsonLd}
+  noindex={!data.verified}
+>
+  <PageHero
+    eyebrow={`${data.code} · Semester ${data.semester}`}
+    title={`${data.code} ${data.name}`}
+    description={data.description}
+    breadcrumbs={breadcrumbs}
+  >
+    <div class="mt-5 flex flex-wrap items-center gap-2">
+      {data.verified ? (
+        <Badge tone="success">Human verified</Badge>
+      ) : (
+        <Badge tone="warning">Under review</Badge>
+      )}
+      <Badge tone="neutral">{scheme?.label ?? data.scheme}</Badge>
+      <Badge tone="neutral">Sem {data.semester}</Badge>
+      {data.credits ? <Badge tone="neutral">{data.credits} credits</Badge> : null}
+      {data.draft ? <Badge tone="danger">Draft preview</Badge> : null}
+    </div>
+  </PageHero>
+
+  <div class="container-page grid gap-10 py-10 md:py-14 lg:grid-cols-[minmax(0,1fr)_20rem]">
+    <div class="min-w-0">
+      {(data.resources.length > 0 ||
+        totalTopicQuestions > 0 ||
+        data.syllabus_units.length > 0) && (
+        <nav aria-label="On this page" class="mb-8 flex flex-wrap gap-2">
+          {data.syllabus_units.length > 0 && (
+            <a
+              href="#syllabus"
+              class="inline-flex h-9 items-center rounded-full border border-stone-200 bg-white px-3 text-sm text-stone-700 hover:border-stone-300 hover:text-stone-950"
+            >
+              Syllabus
+            </a>
+          )}
+          {totalTopicQuestions > 0 && (
+            <a
+              href="#topic-questions"
+              class="inline-flex h-9 items-center rounded-full border border-stone-300 bg-cream px-3 text-sm font-semibold text-stone-900 shadow-hairline hover:bg-stone-100"
+            >
+              Topic Questions ({totalTopicQuestions})
+            </a>
+          )}
+          {groupedResources.map((group) => (
+            <a
+              href={`#${group.id}`}
+              class="inline-flex h-9 items-center rounded-full border border-stone-200 bg-white px-3 text-sm text-stone-700 hover:border-stone-300 hover:text-stone-950"
+            >
+              {group.title}
+            </a>
+          ))}
+          {data.faqs.length > 0 && (
+            <a
+              href="#faqs"
+              class="inline-flex h-9 items-center rounded-full border border-stone-200 bg-white px-3 text-sm text-stone-700 hover:border-stone-300 hover:text-stone-950"
+            >
+              FAQs
+            </a>
+          )}
+        </nav>
+      )}
+
+      <section id="syllabus" aria-labelledby="syllabus-heading">
+        <div class="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <p class="font-condensed text-xs font-bold uppercase tracking-[0.12em] text-stone-500">
+              Official facts
+            </p>
+            <h2 id="syllabus-heading" class="mt-2 font-display text-2xl text-stone-950">
+              Syllabus units
+            </h2>
+          </div>
+          <a
+            href={data.source_url}
+            rel="noopener"
+            target="_blank"
+            class="text-sm font-medium text-accent-strong hover:underline"
+          >
+            Open official syllabus →
+          </a>
+        </div>
+
+        {data.syllabus_units.length > 0 ? (
+          <div class="mt-5 space-y-3">
+            {data.syllabus_units.map((unit) => (
+              <article class="rounded-card border border-stone-200 bg-white p-5 shadow-lift">
+                <div class="flex flex-wrap items-baseline justify-between gap-2">
+                  <h3 class="font-display text-lg text-stone-950">
+                    Unit {unit.unit}: {unit.title}
+                  </h3>
+                  {(unit.hours || unit.marks) && (
+                    <p class="text-xs text-stone-500">
+                      {unit.hours ? `${unit.hours} hours` : ''}
+                      {unit.hours && unit.marks ? ' · ' : ''}
+                      {unit.marks ? `${unit.marks} marks` : ''}
+                    </p>
+                  )}
+                </div>
+                <ul class="mt-3 flex flex-wrap gap-2">
+                  {unit.topics.map((topic) => (
+                    <li class="rounded-full bg-cream px-2.5 py-1 text-xs text-stone-700">
+                      {topic}
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div class="mt-5">
+            <EmptyState
+              title="Unit list is being verified"
+              description="We publish syllabus facts only after checking the official document. Use the official link above for now."
+              actionHref={data.source_url}
+              actionLabel="Open official syllabus"
+            />
+          </div>
+        )}
+      </section>
+
+      {totalTopicQuestions > 0 && (
+        <section
+          id="topic-questions"
+          aria-labelledby="topic-questions-heading"
+          class="mt-12"
+        >
+          <div class="flex flex-wrap items-end justify-between gap-3 border-b border-stone-200 pb-4">
+            <div>
+              <p class="font-condensed text-xs font-bold uppercase tracking-[0.12em] text-stone-500">
+                Exam Pattern Analysis
+              </p>
+              <h2
+                id="topic-questions-heading"
+                class="mt-1 font-display text-2xl text-stone-950"
+              >
+                Topic-Wise High-Yield Questions ({totalTopicQuestions})
+              </h2>
+            </div>
+            <p class="text-xs text-stone-500">
+              Aggregated from the past 5 years of AKTU end-sem examinations
+            </p>
+          </div>
+
+          <div class="mt-6 space-y-8">
+            {data.syllabus_units
+              .filter((unit) => (unit.questions?.length ?? 0) > 0)
+              .map((unit) => (
+                <div class="rounded-card-lg border border-stone-200 bg-white p-5 shadow-lift">
+                  <div class="flex flex-wrap items-center justify-between gap-2 border-b border-stone-100 pb-3">
+                    <h3 class="font-display text-lg text-stone-950">
+                      Unit {unit.unit}: {unit.title}
+                    </h3>
+                    <span class="rounded-full bg-cream px-2.5 py-0.5 text-xs font-medium text-stone-700">
+                      {unit.questions.length} questions
+                    </span>
+                  </div>
+
+                  <div class="mt-4 space-y-4">
+                    {unit.questions.map((q) => (
+                      <article class="rounded-card border border-stone-200/60 bg-sand/20 p-4 transition-colors hover:border-stone-300">
+                        <div class="flex flex-wrap items-start justify-between gap-2">
+                          <div class="flex flex-wrap items-center gap-2">
+                            {q.marks && (
+                              <span class="inline-flex items-center rounded-full bg-stone-900 px-2.5 py-0.5 text-xs font-semibold text-white">
+                                {q.marks} Marks
+                              </span>
+                            )}
+                            {q.importance === 'high' && (
+                              <span class="inline-flex items-center rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-medium text-amber-900">
+                                High Yield
+                              </span>
+                            )}
+                            {q.frequency && (
+                              <span class="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-800">
+                                Repeated {q.frequency}x
+                              </span>
+                            )}
+                          </div>
+                          {q.years.length > 0 && (
+                            <span class="text-xs text-stone-500">
+                              Asked in: {q.years.join(', ')}
+                            </span>
+                          )}
+                        </div>
+
+                        <h4 class="mt-3 font-medium text-stone-950 leading-snug">
+                          {q.question}
+                        </h4>
+
+                        {q.key_points && q.key_points.length > 0 && (
+                          <div class="mt-3 rounded-input bg-white p-3.5 border border-stone-200/80 text-xs text-stone-700">
+                            <p class="font-semibold text-stone-900 mb-1.5 flex items-center gap-1.5">
+                              <span class="size-1.5 rounded-full bg-stone-900"></span>
+                              Key Exam Points for Full Marks:
+                            </p>
+                            <ul class="space-y-1 list-disc list-inside text-stone-600">
+                              {q.key_points.map((pt) => (
+                                <li>{pt}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </article>
+                    ))}
+                  </div>
+                </div>
+              ))}
+          </div>
+        </section>
+      )}
+
+      <div class="mt-12 space-y-12">
+        {groupedResources.map((group) => (
+          <section id={group.id} aria-labelledby={`${group.id}-heading`}>
+            <h2 id={`${group.id}-heading`} class="font-display text-2xl text-stone-950">
+              {group.title}
+            </h2>
+            <div class="mt-4 grid gap-4 sm:grid-cols-2">
+              {group.items.map((resource) => (
+                <ResourceCard resource={resource} />
+              ))}
+            </div>
+          </section>
+        ))}
+
+        {!hasResources && (
+          <EmptyState
+            title="Downloadable resources are being prepared"
+            description="We publish a PDF only after originality, fact, and human review checks. The syllabus facts and official links above are available now."
+            actionHref={data.source_url}
+            actionLabel="Open official syllabus"
+          />
+        )}
+      </div>
+
+      {data.faqs.length > 0 && (
+        <section id="faqs" aria-labelledby="faqs-heading" class="mt-12">
+          <h2 id="faqs-heading" class="font-display text-2xl text-stone-950">
+            FAQs
+          </h2>
+          <div class="mt-4 space-y-3">
+            {data.faqs.map((faq) => (
+              <details class="rounded-card border border-stone-200 bg-white p-4 shadow-lift">
+                <summary class="cursor-pointer font-medium text-stone-950">
+                  {faq.question}
+                </summary>
+                <p class="mt-2 text-sm leading-relaxed text-stone-600">{faq.answer}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <div class="mt-12">
+        <Callout tone="info" title="How this page is made">
+          <p>
+            Syllabus facts come from the official AKTU document. Notes, solutions, and
+            question banks are original material written from a verified fact sheet,
+            checked for similarity, and reviewed by a subject expert. Official PDFs are
+            linked, not rehosted.
+          </p>
+        </Callout>
+      </div>
+    </div>
+
+    <aside class="space-y-4 lg:sticky lg:top-24 lg:self-start">
+      <section class="rounded-card border border-stone-200 bg-cream p-5">
+        <h2 class="font-condensed text-xs font-bold uppercase tracking-[0.12em] text-stone-500">
+          Subject facts
+        </h2>
+        <dl class="mt-3 space-y-2 text-sm">
+          <div class="flex justify-between gap-3">
+            <dt class="text-stone-500">Code</dt>
+            <dd class="font-mono text-stone-900">{data.code}</dd>
+          </div>
+          <div class="flex justify-between gap-3">
+            <dt class="text-stone-500">Course</dt>
+            <dd class="text-stone-900">{course?.name ?? data.course}</dd>
+          </div>
+          <div class="flex justify-between gap-3">
+            <dt class="text-stone-500">Semester</dt>
+            <dd class="text-stone-900">{data.semester}</dd>
+          </div>
+          <div class="flex justify-between gap-3">
+            <dt class="text-stone-500">Scheme</dt>
+            <dd class="text-stone-900">{scheme?.label ?? data.scheme}</dd>
+          </div>
+          {data.credits ? (
+            <div class="flex justify-between gap-3">
+              <dt class="text-stone-500">Credits</dt>
+              <dd class="text-stone-900">{data.credits}</dd>
+            </div>
+          ) : null}
+          <div class="flex justify-between gap-3">
+            <dt class="text-stone-500">Branches</dt>
+            <dd class="text-right text-stone-900">
+              {data.branches.join(', ').toUpperCase()}
+            </dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="rounded-card border border-stone-200 bg-white p-5">
+        <h2 class="font-condensed text-xs font-bold uppercase tracking-[0.12em] text-stone-500">
+          Official links
+        </h2>
+        <ul class="mt-3 space-y-2 text-sm">
+          <li>
+            <a
+              class="text-accent-strong hover:underline"
+              href={data.source_url}
+              rel="noopener"
+              target="_blank"
+            >
+              AKTU syllabus
+            </a>
+          </li>
+          <li>
+            <a
+              class="text-accent-strong hover:underline"
+              href="https://aktu.ac.in/old-question-paper.html"
+              rel="noopener"
+              target="_blank"
+            >
+              Official question papers
+            </a>
+          </li>
+          <li>
+            <a
+              class="text-accent-strong hover:underline"
+              href="https://aktu.ac.in/"
+              rel="noopener"
+              target="_blank"
+            >
+              AKTU website
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      <section class="rounded-card border border-stone-200 bg-white p-5">
+        <h2 class="font-condensed text-xs font-bold uppercase tracking-[0.12em] text-stone-500">
+          Content status
+        </h2>
+        <ul class="mt-3 space-y-2 text-sm text-stone-600">
+          <li>{data.resources.length} resources</li>
+          <li>{data.syllabus_units.length} syllabus units</li>
+          {totalTopicQuestions > 0 && <li>{totalTopicQuestions} topic questions</li>}
+          <li>{data.faqs.length} FAQs</li>
+          {data.updated && (
+            <li>
+              Updated{' '}
+              {new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' }).format(
+                data.updated,
+              )}
+            </li>
+          )}
+          {data.last_verified && (
+            <li>
+              Syllabus verified{' '}
+              {new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' }).format(
+                data.last_verified,
+              )}
+            </li>
+          )}
+        </ul>
+      </section>
+
+      <section class="rounded-card border border-stone-200 bg-white p-5 text-sm leading-relaxed text-stone-600">
+        <p class="font-semibold text-stone-900">Found a mistake?</p>
+        <p class="mt-1">
+          Report it with the subject code and section. Corrections are reviewed and
+          logged.
+        </p>
+        <a class="mt-3 inline-block text-accent-strong hover:underline" href="/contact/">
+          Contact the editorial team →
+        </a>
+      </section>
+    </aside>
+  </div>
+</BaseLayout>

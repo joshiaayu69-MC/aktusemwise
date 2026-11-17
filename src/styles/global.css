@@ -1,1 +1,279 @@
-@import "tailwindcss";
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/hanken-grotesk';
+@import '@fontsource-variable/archivo';
+@import '@fontsource-variable/geist-mono';
+@import 'katex/dist/katex.min.css';
+@import 'tailwindcss';
+
+@theme {
+  /* Fonts: open-source substitutes for the reference design. Never bundle Waldenburg. */
+  --font-display: 'Hanken Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-condensed: 'Archivo Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, SFMono-Regular, monospace;
+
+  /* Surfaces */
+  --color-eggshell: #fdfcfc;
+  --color-cream: #f5f3f1;
+  --color-sand: #ebe8e4;
+
+  /* Warm neutrals */
+  --color-stone-25: #fdfcfc;
+  --color-stone-50: #faf8f8;
+  --color-stone-100: #f5f3f1;
+  --color-stone-200: #ebe8e4;
+  --color-stone-300: #d7d2cc;
+  --color-stone-400: #a59f97;
+  --color-stone-500: #777169;
+  --color-stone-600: #59544f;
+  --color-stone-700: #44403b;
+  --color-stone-800: #292524;
+  --color-stone-900: #1c1917;
+  --color-stone-950: #0c0a09;
+
+  /* Accent + semantics */
+  --color-accent: #2b7fff;
+  --color-accent-strong: #155dfc;
+  --color-success: #00a63e;
+  --color-danger: #fb2c36;
+  --color-warning: #fbbe45;
+
+  /* Radii */
+  --radius-card: 0.75rem;
+  --radius-card-lg: 1rem;
+  --radius-input: 0.5rem;
+  --radius-pill: 9999px;
+
+  /* Shadows */
+  --shadow-hairline:
+    0 0.5px 0.75px rgb(0 0 0 / 0.14), inset 0 0.25px rgb(255 255 255 / 0.35);
+  --shadow-lift: 0 0.5rem 1rem -0.375rem rgb(17 17 17 / 0.04);
+  --shadow-overlay:
+    0 0 1px rgb(0 0 0 / 0.3), 0 4px 12px rgb(0 0 0 / 0.08), 0 12px 24px rgb(0 0 0 / 0.06);
+
+  /* Type scale */
+  --text-hero: 2.25rem;
+  --text-hero--line-height: 1.17;
+  --text-hero--letter-spacing: -0.02em;
+  --text-h1: 2.25rem;
+  --text-h1--line-height: 1.05;
+  --text-h1--letter-spacing: -0.03em;
+  --text-h2: 2rem;
+  --text-h2--line-height: 1.1;
+  --text-h2--letter-spacing: -0.03em;
+  --text-h3: 1.75rem;
+  --text-h3--line-height: 1.2;
+  --text-h3--letter-spacing: -0.02em;
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.6;
+  --text-label: 0.8125rem;
+  --text-label--line-height: 1.1;
+  --text-label--letter-spacing: 0.05em;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-eggshell);
+    color: var(--color-stone-900);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+
+  h1 {
+    font-size: var(--text-h1);
+    line-height: var(--text-h1--line-height);
+  }
+
+  h2 {
+    font-size: var(--text-h2);
+    line-height: var(--text-h2--line-height);
+  }
+
+  h3 {
+    font-size: var(--text-h3);
+    line-height: var(--text-h3--line-height);
+    letter-spacing: var(--text-h3--letter-spacing);
+  }
+
+  p,
+  li {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 1.5px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-accent) 20%, transparent);
+  }
+
+  a {
+    text-underline-offset: 0.18em;
+  }
+
+  img,
+  svg,
+  video {
+    max-width: 100%;
+    height: auto;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .container-page {
+    width: 100%;
+    max-width: 81.625rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 40rem) {
+    .container-page {
+      padding-inline: 2rem;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .container-page {
+      padding-inline: 4rem;
+    }
+  }
+
+  .prose-aktu {
+    color: var(--color-stone-800);
+    font-size: 1.0625rem;
+    line-height: 1.75;
+  }
+
+  .prose-aktu > * + * {
+    margin-block-start: 1.15rem;
+  }
+
+  .prose-aktu h2 {
+    margin-block-start: 2.5rem;
+    font-size: clamp(1.5rem, 2vw + 1rem, 2rem);
+  }
+
+  .prose-aktu h3 {
+    margin-block-start: 2rem;
+    font-size: clamp(1.25rem, 1vw + 1rem, 1.5rem);
+  }
+
+  .prose-aktu h4 {
+    margin-block-start: 1.5rem;
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: 0;
+  }
+
+  .prose-aktu ul,
+  .prose-aktu ol {
+    padding-inline-start: 1.35rem;
+  }
+
+  .prose-aktu ul {
+    list-style: disc;
+  }
+
+  .prose-aktu ol {
+    list-style: decimal;
+  }
+
+  .prose-aktu li + li {
+    margin-block-start: 0.4rem;
+  }
+
+  .prose-aktu a {
+    color: var(--color-accent-strong);
+    text-decoration: underline;
+    text-decoration-thickness: 0.08em;
+  }
+
+  .prose-aktu a:hover {
+    color: var(--color-stone-900);
+  }
+
+  .prose-aktu blockquote {
+    border-inline-start: 3px solid var(--color-stone-300);
+    padding-inline-start: 1rem;
+    color: var(--color-stone-600);
+  }
+
+  .prose-aktu code:not(pre code) {
+    border-radius: 0.35rem;
+    background: var(--color-stone-100);
+    padding: 0.15rem 0.35rem;
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+  }
+
+  .prose-aktu pre {
+    overflow-x: auto;
+    border-radius: var(--radius-card);
+    border: 1px solid var(--color-stone-200);
+    background: var(--color-stone-950);
+    padding: 1rem;
+    color: var(--color-stone-50);
+    font-size: 0.875rem;
+  }
+
+  .prose-aktu table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+  }
+
+  .prose-aktu th,
+  .prose-aktu td {
+    border: 1px solid var(--color-stone-200);
+    padding: 0.55rem 0.7rem;
+    text-align: start;
+    vertical-align: top;
+  }
+
+  .prose-aktu th {
+    background: var(--color-cream);
+    font-weight: 600;
+  }
+
+  .prose-aktu hr {
+    border: 0;
+    border-top: 1px solid var(--color-stone-200);
+    margin-block: 2rem;
+  }
+}

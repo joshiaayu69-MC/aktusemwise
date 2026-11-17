@@ -1,0 +1,101 @@
+---
+import LegalLayout from '../layouts/LegalLayout.astro';
+import { SITE } from '../lib/site';
+
+const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Terms' }];
+---
+
+<LegalLayout
+  title="Terms of use"
+  description="The rules for using this independent study-resource site."
+  breadcrumbs={breadcrumbs}
+  updated="16 November 2026"
+>
+  <p>
+    By using this site, you agree to these terms. If you do not agree, please do not use
+    the site. These terms are a practical site policy, not legal advice.
+  </p>
+
+  <h2>Educational purpose</h2>
+  <p>
+    The site provides study material for educational use. It does not provide official
+    university services, result checking, admission decisions, or legal advice. Always
+    confirm syllabus, scheme, dates, eligibility, and results with the official AKTU
+    source.
+  </p>
+
+  <h2>No warranty</h2>
+  <p>
+    We work to keep content accurate, but the site is provided "as is" without warranties
+    of accuracy, completeness, fitness for a particular purpose, or uninterrupted
+    availability. Subject codes, schemes, and exam patterns can change. Use the official
+    documents as the final authority.
+  </p>
+
+  <h2>Permitted use</h2>
+  <p>
+    You may read, download, and print resources for your own study. You may share links to
+    the site. You may not scrape the site at scale, bypass access controls, re-upload our
+    PDFs as your own, remove attribution, or use the content to train or populate a
+    competing commercial library without written permission.
+  </p>
+
+  <h2>Intellectual property</h2>
+  <p>
+    Original notes, solutions, question banks, diagrams, and site design are owned by
+    their respective creators and are published under the licence recorded on each
+    resource. Official AKTU documents remain the property of their owners. Open-licence
+    material remains under its original licence and attribution requirements.
+  </p>
+
+  <h2>User submissions</h2>
+  <p>
+    If you submit a correction or resource, you confirm that you created it or have
+    written permission to share it, and you grant us a non-exclusive, royalty-free licence
+    to host, display, adapt, and distribute it with credit. We may remove any submission
+    after a valid complaint.
+  </p>
+
+  <h2>Third-party links</h2>
+  <p>
+    The site links to official university pages and other third-party sites. We do not
+    control those sites and are not responsible for their content, availability, or
+    privacy practices.
+  </p>
+
+  <h2>Advertising</h2>
+  <p>
+    If ads are enabled, they will be clearly separated from download links. We will not
+    use fake download buttons, countdowns, or interstitials. Ad providers may have their
+    own terms and privacy policies.
+  </p>
+
+  <h2>Limitation of liability</h2>
+  <p>
+    To the extent permitted by law, we are not liable for any loss arising from reliance
+    on the site, including academic outcomes, missed deadlines, or decisions made using an
+    outdated document. Your use of the site is at your own risk.
+  </p>
+
+  <h2>Changes</h2>
+  <p>
+    We may update these terms as the site changes. The updated date at the bottom of this
+    page shows the latest revision. Continued use after a change means you accept the
+    revised terms.
+  </p>
+
+  <h2>Governing law</h2>
+  <p>
+    These terms are governed by the laws of India. Disputes are subject to the
+    jurisdiction of the courts at the site operator's registered location, unless
+    applicable law requires otherwise.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    Questions: <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+  </p>
+  <p class="text-sm text-stone-500">
+    TODO: have an Indian lawyer review these terms before commercial launch.
+  </p>
+</LegalLayout>

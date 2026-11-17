@@ -1,0 +1,278 @@
+code: BCS301
+name: Data Structures
+course: btech
+branches: [cse, it, aiml, cse-ai]
+semester: 3
+scheme: 2022-23
+credits: 4
+source_url: https://aktu.ac.in/syllabus.html
+verified: true
+draft: false
+last_verified: 2026-11-16
+updated: 2026-11-17
+description: >
+  Data Structures (BCS301) is the pivotal third-semester foundational computer science subject
+  at AKTU. The course establishes algorithmic reasoning, asymptotic notation, and abstract data
+  type (ADT) design. The syllabus starts with asymptotic analysis (Big-O, Omega, Theta), arrays,
+  sparse matrices, and dynamic memory allocation before deep-diving into linear data structures:
+  singly, doubly, and circular linked lists. Unit two covers stack ADT, array/linked implementations,
+  infix-to-postfix conversions, postfix evaluation, recursive call frames, and queue variations
+  including circular queues and double-ended queues (deques). Module three and four explore non-linear
+  hierarchical structures: binary trees, binary search trees (BST), balanced AVL trees with single
+  and double rotations, B-trees, heaps, and graph algorithms including Breadth-First Search (BFS),
+  Depth-First Search (DFS), Prim's, Kruskal's, and Dijkstra's shortest path. The final unit teaches
+  sorting algorithms (Quick Sort, Merge Sort, Heap Sort) and collision resolution strategies in
+  hash tables. In AKTU end-sem papers, tracing rotations, tree traversals, and conversion algorithms
+  form the core 7-to-10 mark questions.
+syllabus_units:
+  - unit: 1
+    title: 'Introduction to Algorithms, Arrays, and Linked Lists'
+    hours: 8
+    marks: 14
+    topics:
+      - 'Algorithm complexity, asymptotic notations (Big O, Omega, Theta), best/average/worst cases'
+      - 'Array storage representations: row-major order and column-major order formula'
+      - 'Sparse matrix representation (triplet format) and fast transpose'
+      - 'Singly linked lists: node definition, insertion, deletion, searching, traversal'
+      - 'Doubly linked lists and circular linked list implementations'
+      - 'Header linked lists and polynomial addition representation'
+    questions:
+      - question: 'Derive the address calculation formula for an element A[i][j] in a two-dimensional array stored in row-major and column-major order.'
+        marks: 10
+        frequency: 5
+        years: ['2024-25', '2023-24', '2022-23', '2021-22', '2020-21']
+        key_points:
+          - 'Define base address BA, size of each element w, row index bounds [Lr..Ur], column bounds [Lc..Uc].'
+          - 'Row-major order formula: Address(A[i][j]) = BA + w * [ (i - Lr) * N + (j - Lc) ] where N = (Uc - Lc + 1).'
+          - 'Column-major order formula: Address(A[i][j]) = BA + w * [ (j - Lc) * M + (i - Lr) ] where M = (Ur - Lr + 1).'
+          - 'Solve a concrete numerical example with given bounds.'
+        importance: high
+      - question: 'Write algorithms to insert a node at the beginning, at the end, and after a specified node in a Singly Linked List.'
+        marks: 10
+        frequency: 4
+        years: ['2023-24', '2022-23', '2020-21', '2019-20']
+        key_points:
+          - 'Memory allocation using malloc() and check for overflow condition.'
+          - 'Set pointer links: newNode->next = head; head = newNode for beginning insertion.'
+          - 'Traverse until temp->next == NULL for end insertion.'
+          - 'Handle boundary conditions: empty list, single element list, invalid target node.'
+        importance: high
+      - question: 'Differentiate between Big-O, Omega, and Theta asymptotic notations with formal mathematical definitions.'
+        marks: 2
+        frequency: 5
+        years: ['2024-25', '2023-24', '2022-23', '2021-22', '2018-19']
+        key_points:
+          - 'Big-O (O): Asymptotic upper bound, f(n) <= c * g(n) for all n >= n0.'
+          - 'Big-Omega: Asymptotic lower bound, f(n) >= c * g(n) for all n >= n0.'
+          - 'Big-Theta: Asymptotically tight bound, c1 * g(n) <= f(n) <= c2 * g(n).'
+        importance: high
+
+  - unit: 2
+    title: 'Stacks, Queues, and Recursion'
+    hours: 8
+    marks: 14
+    topics:
+      - 'Stack Abstract Data Type (ADT), array and linked representations, push and pop algorithms'
+      - 'Applications of stacks: parenthesis matching, infix to postfix conversion, evaluation of postfix'
+      - 'Recursion principles, runtime call stack, tower of Hanoi problem'
+      - 'Queue ADT, FIFO principle, sequential representation, queue overflow and underflow'
+      - 'Circular queue implementation and boundary condition formulas'
+      - 'Double-ended queues (deque) and priority queues'
+    questions:
+      - question: 'Convert the infix expression A + (B * C - (D / E ^ F) * G) * H into postfix notation using a stack tabular trace.'
+        marks: 10
+        frequency: 5
+        years: ['2024-25', '2023-24', '2022-23', '2021-22', '2019-20']
+        key_points:
+          - 'Construct table with columns: Symbol Scanned, Stack Contents, Postfix Output.'
+          - 'Follow operator precedence and associativity rules (^ right-to-left, *, / left-to-right, +, -).'
+          - 'Show step-by-step token processing and stack popping on closing parenthesis.'
+          - 'State final converted postfix expression correctly.'
+        importance: high
+      - question: 'Explain the circular queue implementation. Why is it preferred over a linear queue? Write insert and delete algorithms.'
+        marks: 10
+        frequency: 4
+        years: ['2023-24', '2022-23', '2020-21', '2018-19']
+        key_points:
+          - 'Linear queue suffers from memory waste where space before front cannot be reused after deletions.'
+          - 'Circular queue wraps indices using modulo arithmetic: rear = (rear + 1) % MAX.'
+          - 'Overflow condition: (rear + 1) % MAX == front.'
+          - 'Underflow condition: front == -1.'
+        importance: high
+
+  - unit: 3
+    title: 'Trees, Binary Trees, and Search Trees'
+    hours: 9
+    marks: 14
+    topics:
+      - 'Tree terminology (root, leaf, height, depth, degree of node, siblings)'
+      - 'Binary tree properties, full binary tree, complete binary tree, strictly binary tree'
+      - 'Binary tree traversals: Preorder, Inorder, Postorder (recursive and non-recursive)'
+      - 'Constructing a binary tree from Inorder and Preorder traversals'
+      - 'Binary Search Tree (BST) definition, insertion, deletion of nodes with zero, one, or two children'
+      - 'Threaded binary trees and Huffman coding trees'
+    questions:
+      - question: 'Construct a unique binary tree given the Inorder: D, B, H, E, I, A, F, C, G and Preorder: A, B, D, E, H, I, C, F, G traversals.'
+        marks: 10
+        frequency: 5
+        years: ['2024-25', '2023-24', '2022-23', '2021-22', '2020-21']
+        key_points:
+          - 'First element of Preorder (A) is the root node.'
+          - 'Locate A in Inorder: elements to left form left subtree, elements to right form right subtree.'
+          - 'Recursively split subtrees and draw intermediate tree stages.'
+          - 'Verify reconstructed tree by writing out its Postorder traversal.'
+        importance: high
+      - question: 'Explain the algorithm to delete a node from a Binary Search Tree (BST). Discuss all three cases (leaf node, one child, two children).'
+        marks: 10
+        frequency: 4
+        years: ['2024-25', '2022-23', '2020-21', '2019-20']
+        key_points:
+          - 'Case 1: Node is a leaf -> free memory and set parent pointer to NULL.'
+          - 'Case 2: Node has one child -> replace node with its immediate child.'
+          - 'Case 3: Node has two children -> find inorder successor (smallest in right subtree) or predecessor, copy key, and delete successor.'
+        importance: high
+
+  - unit: 4
+    title: 'Balanced Trees and Graphs'
+    hours: 8
+    marks: 14
+    topics:
+      - 'AVL Trees: balance factor definition, LL, RR, LR, and RL rotation mechanisms'
+      - 'B-Trees: properties, order m, node structure, insertion and splitting'
+      - 'Graph representation: adjacency matrix and adjacency list'
+      - 'Graph traversals: Breadth First Search (BFS) and Depth First Search (DFS)'
+      - "Minimum Spanning Tree (MST): Kruskal's algorithm with disjoint sets and Prim's algorithm"
+      - "Single-source shortest path: Dijkstra's algorithm"
+    questions:
+      - question: 'Construct an AVL tree by inserting the keys: 14, 17, 11, 7, 53, 4, 13, 12 in order. Show balance factors and rotations at every step.'
+        marks: 10
+        frequency: 5
+        years: ['2024-25', '2023-24', '2022-23', '2021-22', '2019-20']
+        key_points:
+          - 'Define balance factor BF = height(left) - height(right) where allowable BF is {-1, 0, +1}.'
+          - 'Show state after each key insertion.'
+          - 'Identify critical node violating AVL property.'
+          - 'Classify rotation type (LL, RR, LR, RL) and draw rebalanced tree.'
+        importance: high
+      - question: "Find the Minimum Spanning Tree (MST) of a given weighted graph using Prim's and Kruskal's algorithms. Compare their complexities."
+        marks: 10
+        frequency: 4
+        years: ['2023-24', '2022-23', '2020-21', '2018-19']
+        key_points:
+          - "Kruskal's: Greedy edge-based algorithm. Sort all edges and add lowest without forming cycles. O(E log E)."
+          - "Prim's: Vertex-based growing tree algorithm. Start from arbitrary vertex and add minimum cut edge. O(V^2) or O(E log V)."
+          - 'Calculate total weight of minimum spanning tree.'
+        importance: high
+
+  - unit: 5
+    title: 'Sorting, Searching, and Hashing'
+    hours: 7
+    marks: 14
+    topics:
+      - 'Searching algorithms: linear search and binary search with recurrence relation'
+      - 'Sorting algorithms: Bubble sort, Selection sort, Insertion sort'
+      - 'Divide and conquer sorting: Quick sort (partitioning) and Merge sort'
+      - 'Heap sort: max heap construction, heapify algorithm, and sorting'
+      - 'Hashing concepts: hash functions (division, mid-square, folding)'
+      - 'Collision resolution: open addressing (linear probing, quadratic probing, double hashing) and chaining'
+    questions:
+      - question: 'Explain Quick Sort algorithm. Trace it for a given array of 8 integers. Analyze its best, average, and worst case complexities.'
+        marks: 10
+        frequency: 5
+        years: ['2024-25', '2023-24', '2022-23', '2021-22', '2020-21']
+        key_points:
+          - 'Divide-and-conquer strategy: Partition array around pivot so elements <= pivot are left, > pivot are right.'
+          - 'Write partition algorithm with two pointers i and j.'
+          - 'Best/Average case recurrence T(n) = 2T(n/2) + O(n) giving O(n log n).'
+          - 'Worst case when array is already sorted: T(n) = T(n-1) + O(n) giving O(n^2).'
+        importance: high
+      - question: 'Explain Hashing and Collision Resolution techniques. Contrast Linear Probing with Chaining.'
+        marks: 10
+        frequency: 4
+        years: ['2023-24', '2022-23', '2021-22', '2019-20']
+        key_points:
+          - 'Hash function maps large keys to small index table.'
+          - 'Linear probing: search sequentially (h(k) + i) % m; causes primary clustering.'
+          - 'Chaining: linked list at each bucket; no primary clustering, dynamic memory.'
+        importance: high
+
+resources:
+  - type: pyq
+    title: 2024–25 End Semester Question Paper (BCS301)
+    year: 2024-25
+    official_url: https://aktu.ac.in/old-question-paper.html
+    source: official-link
+    licence: godl-1.0
+    verified: true
+    reviewer: Academic Review Board
+    reviewed_at: 2026-11-16
+    source_basis:
+      - url: https://aktu.ac.in/old-question-paper.html
+        use: link-only
+  - type: pyq
+    title: 2023–24 End Semester Question Paper (BCS301)
+    year: 2023-24
+    official_url: https://aktu.ac.in/old-question-paper.html
+    source: official-link
+    licence: godl-1.0
+    verified: true
+    reviewer: Academic Review Board
+    reviewed_at: 2026-11-16
+    source_basis:
+      - url: https://aktu.ac.in/old-question-paper.html
+        use: link-only
+  - type: pyq
+    title: 2022–23 End Semester Question Paper (BCS301)
+    year: 2022-23
+    official_url: https://aktu.ac.in/old-question-paper.html
+    source: official-link
+    licence: godl-1.0
+    verified: true
+    reviewer: Academic Review Board
+    reviewed_at: 2026-11-16
+    source_basis:
+      - url: https://aktu.ac.in/old-question-paper.html
+        use: link-only
+  - type: pyq
+    title: 2021–22 End Semester Question Paper (KCS301)
+    year: 2021-22
+    official_url: https://aktu.ac.in/old-question-paper.html
+    source: official-link
+    licence: godl-1.0
+    verified: true
+    reviewer: Academic Review Board
+    reviewed_at: 2026-11-16
+    source_basis:
+      - url: https://aktu.ac.in/old-question-paper.html
+        use: link-only
+  - type: syllabus
+    title: Official AKTU BCS301 Syllabus & Credit Structure
+    official_url: https://aktu.ac.in/syllabus.html
+    source: official-link
+    licence: godl-1.0
+    verified: true
+    reviewer: Academic Review Board
+    reviewed_at: 2026-11-16
+    source_basis:
+      - url: https://aktu.ac.in/syllabus.html
+        use: link-only
+
+faqs:
+  - question: Which programming language should be used for data structures code in AKTU exams?
+    answer: >
+      AKTU standard evaluation expects algorithms written in structured C syntax or standard
+      algorithmic pseudocode. Providing clear comments, struct definitions, pointer manipulations,
+      and checking boundary conditions (malloc NULL or underflow) earns full credit.
+  - question: What are the most frequently asked 10-mark questions in BCS301?
+    answer: >
+      Three numerical algorithm tracing questions appear in almost every semester: Infix to
+      Postfix conversion with stack trace table (Unit 2), Binary Tree reconstruction from Inorder
+      and Preorder traversals (Unit 3), and AVL Tree construction showing rotations (Unit 4).
+  - question: Does BCS301 include a laboratory component?
+    answer: >
+      Yes, BCS351 (Data Structures Lab) runs concurrently in semester 3. Students implement linked
+      lists, stacks, queues, binary search trees, and sorting algorithms in C under Linux/GCC.
+
+aliases: [data-structures, ds, bcs-301, kcs301]
+tags:
+  [algorithms, arrays, linked-lists, stack, queue, trees, avl-tree, graphs, sorting, aktu]

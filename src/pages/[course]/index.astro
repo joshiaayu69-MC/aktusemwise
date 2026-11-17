@@ -1,0 +1,109 @@
+---
+import EmptyState from '../../components/EmptyState.astro';
+import PageHero from '../../components/PageHero.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getSubjectsForCourse } from '../../lib/content';
+import { buildCourse } from '../../lib/schema';
+import { SITE } from '../../lib/site';
+import { courses, getBranchesForCourse } from '../../lib/taxonomy';
+import { branchUrl, courseUrl } from '../../lib/urls';
+
+export async function getStaticPaths() {
+  return courses.map((course) => ({
+    params: { course: course.slug },
+    props: { course },
+  }));
+}
+
+const { course } = Astro.props;
+const branches = getBranchesForCourse(course.slug);
+const subjects = await getSubjectsForCourse(course.slug);
+const siteUrl = (Astro.site ?? new URL(SITE.url)).toString();
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Courses', href: '/courses/' },
+  { label: course.name },
+];
+
+const jsonLd = [
+  buildCourse({
+    name: course.full_name,
+    description: `${course.full_name} study resources, syllabus, notes, and previous-year papers for AKTU students.`,
+    url: courseUrl(course.slug),
+    siteUrl,
+  }),
+];
+---
+
+<BaseLayout
+  title={`${course.name} study resources`}
+  description={`Browse ${course.full_name} branches and semesters. Free syllabus, notes, papers, and tools for AKTU students.`}
+  breadcrumbs={breadcrumbs}
+  jsonLd={jsonLd}
+>
+  <PageHero
+    eyebrow="Course"
+    title={`${course.name} study resources`}
+    description={`Choose your branch, then your semester. Each subject hub collects verified syllabus facts, original notes, papers, and exam tools.`}
+    breadcrumbs={breadcrumbs}
+  />
+
+  <div class="container-page py-10 md:py-14">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <div>
+        <h2 class="font-display text-2xl text-stone-950">Branches</h2>
+        <p class="mt-1 text-sm text-stone-600">
+          {branches.length} branches · {course.semesters} semesters
+        </p>
+      </div>
+      <a
+        href="https://aktu.ac.in/syllabus.html"
+        rel="noopener"
+        target="_blank"
+        class="inline-flex h-10 items-center rounded-full border border-stone-300 bg-white px-4 text-sm font-medium text-stone-900 shadow-hairline hover:bg-stone-50"
+      >
+        Official syllabus
+      </a>
+    </div>
+
+    {branches.length > 0 ? (
+      <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {branches.map((branch) => (
+          <a
+            href={branchUrl(course.slug, branch.slug)}
+            class="group rounded-card border border-stone-200 bg-white p-5 shadow-lift transition-colors hover:border-stone-300"
+          >
+            <p class="font-mono text-xs uppercase tracking-wide text-stone-500">
+              {branch.slug}
+            </p>
+            <h3 class="mt-2 font-display text-xl text-stone-950">{branch.name}</h3>
+            <p class="mt-1 text-sm leading-relaxed text-stone-600">{branch.full_name}</p>
+            <span class="mt-4 inline-block text-sm font-medium text-accent-strong group-hover:underline">
+              View semesters →
+            </span>
+          </a>
+        ))}
+      </div>
+    ) : (
+      <div class="mt-6">
+        <EmptyState
+          title="Branches are being verified"
+          description="We add a branch only when its official name and subjects can be verified."
+          actionHref="https://aktu.ac.in/syllabus.html"
+          actionLabel="Open official syllabus"
+        />
+      </div>
+    )}
+
+    {subjects.length === 0 && (
+      <div class="mt-10 rounded-card border border-amber-200 bg-amber-50 p-5 text-sm leading-relaxed text-amber-950">
+        <p class="font-semibold">Subject hubs for {course.name} are being prepared.</p>
+        <p class="mt-1">
+          We publish a subject only when it has verified syllabus facts and at least one
+          useful resource. Use the official syllabus until then.
+        </p>
+      </div>
+    )}
+  </div>
+</BaseLayout>

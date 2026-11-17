@@ -1,0 +1,25 @@
+# Subject template. Copy to src/content/subjects/<code>.yaml.
+# Every field marked REQUIRED must be verified before draft: false.
+# Do not invent codes, credits, schemes, units, or resources.
+
+code: BCS000 # REQUIRED official code
+name: Subject name # REQUIRED official name
+course: btech
+branches: [cse] # REQUIRED: only branches that actually study this subject
+semester: 5
+scheme: 2022-23 # REQUIRED current scheme
+credits: 4 # optional; verify from the official scheme
+source_url: https://aktu.ac.in/syllabus.html # REQUIRED official source
+verified: false # true only after a source check
+draft: true # false only after review and provenance
+description: >
+  Write 150-300 words of original summary. Explain what the subject covers, what a student
+  should be able to do, how the exam usually tests it, and how to prepare. Do not copy the
+  syllabus prose.
+syllabus_units: []
+resources: []
+faqs: []
+aliases: []
+tags: []
+updated: 2026-11-16
+last_verified: 2026-11-16

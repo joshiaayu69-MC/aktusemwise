@@ -1,0 +1,66 @@
+---
+import LegalLayout from '../layouts/LegalLayout.astro';
+import { SITE } from '../lib/site';
+
+const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'About' }];
+---
+
+<LegalLayout
+  title="About this site"
+  description="An independent, student-focused study resource for AKTU students. Learn how the content is sourced, written, reviewed, and published."
+  breadcrumbs={breadcrumbs}
+  updated="16 November 2026"
+>
+  <p>
+    This is an independent study-resource project for students of Dr. A.P.J. Abdul Kalam
+    Technical University (AKTU), Lucknow. It is not an official university website and is
+    not endorsed by AKTU.
+  </p>
+
+  <h2>What we publish</h2>
+  <p>
+    We organise study material by course, branch, semester, and subject: syllabus facts,
+    original unit notes, model papers, question banks, solved papers, lab and viva
+    material, exam guides, and small tools such as a CGPA calculator.
+  </p>
+
+  <h2>How the content is made</h2>
+  <p>
+    We use a documented clean-room process. First, we identify an official or properly
+    licensed source and classify its licence. Second, we extract only facts: subject
+    codes, units, topics, marks, dates, formulas, and eligibility rules. Third, a separate
+    authoring step writes original explanations, examples, diagrams, and questions from
+    that fact sheet. Fourth, we run similarity and fact checks. Fifth, a named subject
+    expert reviews the material before it is published.
+  </p>
+  <p>
+    We do not OCR, paraphrase, or re-typeset a copyrighted scan and call it original. We
+    do not rehost official AKTU PDFs without written permission. Official documents are
+    linked, and their facts are restated with attribution.
+  </p>
+
+  <h2>AI assistance</h2>
+  <p>
+    Some drafts are AI-assisted. Every published resource is reviewed by a human, and the
+    page records whether AI assistance was used. AI is a drafting and checking tool, not a
+    replacement for subject expertise or editorial responsibility.
+  </p>
+
+  <h2>Corrections</h2>
+  <p>
+    If you find an error, email us with the page URL, the exact section, and a source that
+    supports the correction. We review reports, update the page, and record the change.
+    Please do not send personal data, passwords, or result credentials.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    General: <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+    <br />
+    Copyright or takedown:{' '}
+    <a href={`mailto:${SITE.grievanceEmail}`}>{SITE.grievanceEmail}</a>
+  </p>
+  <p class="text-sm text-stone-500">
+    TODO: replace the placeholder brand name, domain, and email addresses before launch.
+  </p>
+</LegalLayout>

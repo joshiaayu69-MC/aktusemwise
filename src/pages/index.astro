@@ -1,16 +1,469 @@
 ---
+import EmptyState from '../components/EmptyState.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import SubjectCard from '../components/SubjectCard.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getPublishedBlogPosts, getPublishedSubjects } from '../lib/content';
+import { buildOrganization, buildWebSite } from '../lib/schema';
+import { SITE } from '../lib/site';
+import { courses, getBranchesForCourse } from '../lib/taxonomy';
+import { blogUrl, courseUrl, toolUrl } from '../lib/urls';
+
+const subjects = await getPublishedSubjects();
+const featured = subjects.slice(0, 6);
+const posts = (await getPublishedBlogPosts()).slice(0, 3);
+const siteUrl = Astro.site ?? new URL(SITE.url);
+const jsonLd = [buildWebSite(siteUrl.toString()), buildOrganization(siteUrl.toString())];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout
+  title="AKTU Study Resources: PYQs, Syllabus, Topic Questions & Circulars"
+  description={SITE.description}
+  jsonLd={jsonLd}
+>
+  <!-- Hero Section -->
+  <section class="border-b border-stone-200 bg-eggshell">
+    <div class="container-page grid gap-10 py-14 md:py-20 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
+      <div>
+        <p class="font-condensed text-xs font-bold uppercase tracking-[0.14em] text-stone-500">
+          Independent AKTU Academic Platform
+        </p>
+        <h1 class="mt-4 max-w-3xl font-display text-4xl font-light leading-[1.05] tracking-[-0.03em] text-stone-950 sm:text-5xl lg:text-6xl">
+          Everything for AKTU. Fast, structured, 100% free.
+        </h1>
+        <p class="mt-5 max-w-2xl text-lg leading-relaxed text-stone-600">
+          Verified syllabus outlines, official previous year question papers (PYQs),
+          unit-wise high-yield topic questions, exam updates, and academic tools for AKTU
+          students. No popups, no paywalls, and zero countdown timers.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a
+            href="/btech/"
+            class="inline-flex h-11 items-center justify-center rounded-full bg-stone-950 px-5 text-base font-medium text-white transition-colors duration-200 hover:bg-stone-700 active:scale-[0.98]"
+          >
+            Browse B.Tech Subjects
+          </a>
+          <a
+            href="/pyq/"
+            class="inline-flex h-11 items-center justify-center rounded-full border border-stone-300 bg-white px-5 text-base font-medium text-stone-900 shadow-hairline transition-colors duration-200 hover:bg-stone-50 active:scale-[0.98]"
+          >
+            Explore PYQ Papers
+          </a>
+          <a
+            href="/tools/sgpa-calculator/"
+            class="inline-flex h-11 items-center justify-center rounded-full border border-stone-200 bg-cream px-5 text-base font-medium text-stone-900 transition-colors duration-200 hover:bg-stone-100"
+          >
+            SGPA Calculator
+          </a>
+        </div>
+        <dl class="mt-10 grid max-w-xl grid-cols-3 gap-4 border-t border-stone-200 pt-5 text-sm">
+          <div>
+            <dt class="text-stone-500">Download cost</dt>
+            <dd class="mt-1 font-display text-2xl text-stone-950">₹0 Free</dd>
+          </div>
+          <div>
+            <dt class="text-stone-500">Wait timers</dt>
+            <dd class="mt-1 font-display text-2xl text-stone-950">0 Seconds</dd>
+          </div>
+          <div>
+            <dt class="text-stone-500">Topic-wise questions</dt>
+            <dd class="mt-1 font-display text-2xl text-stone-950">By Unit</dd>
+          </div>
+        </dl>
+      </div>
+
+      <!-- Quick Resource Directory -->
+      <aside class="rounded-card-lg border border-stone-200 bg-cream p-6 shadow-lift">
+        <p class="font-condensed text-xs font-bold uppercase tracking-[0.12em] text-stone-500">
+          Core Resource Hubs
+        </p>
+        <ul class="mt-4 space-y-3">
+          <li>
+            <a
+              href="/pyq/"
+              class="group flex items-center justify-between gap-4 rounded-card border border-stone-200 bg-white px-4 py-3 shadow-hairline transition-colors hover:border-stone-300"
+            >
+              <span>
+                <span class="block font-display text-lg text-stone-950">
+                  Previous Year Papers (PYQ)
+                </span>
+                <span class="block text-xs text-stone-500">
+                  Semester 1 to 8 · Official university exam papers
+                </span>
+              </span>
+              <span aria-hidden="true" class="text-stone-400 group-hover:text-stone-900">
+                →
+              </span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="/syllabus/"
+              class="group flex items-center justify-between gap-4 rounded-card border border-stone-200 bg-white px-4 py-3 shadow-hairline transition-colors hover:border-stone-300"
+            >
+              <span>
+                <span class="block font-display text-lg text-stone-950">
+                  Syllabus & Schemes
+                </span>
+                <span class="block text-xs text-stone-500">
+                  CBCS & NEP curriculum · Unit outlines & credit rules
+                </span>
+              </span>
+              <span aria-hidden="true" class="text-stone-400 group-hover:text-stone-900">
+                →
+              </span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="/updates/"
+              class="group flex items-center justify-between gap-4 rounded-card border border-stone-200 bg-white px-4 py-3 shadow-hairline transition-colors hover:border-stone-300"
+            >
+              <span>
+                <span class="block font-display text-lg text-stone-950">
+                  AKTU Updates & Circulars
+                </span>
+                <span class="block text-xs text-stone-500">
+                  Exam schedules, admit cards, grace marks, challenge eval
+                </span>
+              </span>
+              <span aria-hidden="true" class="text-stone-400 group-hover:text-stone-900">
+                →
+              </span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="/tools/"
+              class="group flex items-center justify-between gap-4 rounded-card border border-stone-200 bg-white px-4 py-3 shadow-hairline transition-colors hover:border-stone-300"
+            >
+              <span>
+                <span class="block font-display text-lg text-stone-950">
+                  Academic Calculators
+                </span>
+                <span class="block text-xs text-stone-500">
+                  SGPA calculator & official CGPA to percentage formula
+                </span>
+              </span>
+              <span aria-hidden="true" class="text-stone-400 group-hover:text-stone-900">
+                →
+              </span>
+            </a>
+          </li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 4 Core Pillars Section -->
+  <section class="border-b border-stone-200 bg-white py-12">
+    <div class="container-page grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="rounded-card border border-stone-200/80 bg-sand/30 p-5">
+        <span class="grid size-8 place-items-center rounded-full bg-stone-950 text-white text-xs font-bold">
+          1
+        </span>
+        <h3 class="mt-3 font-display text-lg text-stone-950">Previous Year Papers</h3>
+        <p class="mt-1.5 text-xs leading-relaxed text-stone-600">
+          Clean, verified university question papers. No dead links or fake download
+          buttons.
+        </p>
+        <a
+          href="/pyq/"
+          class="mt-3 inline-block text-xs font-semibold text-stone-950 hover:underline"
+        >
+          View all PYQs →
+        </a>
+      </div>
+      <div class="rounded-card border border-stone-200/80 bg-sand/30 p-5">
+        <span class="grid size-8 place-items-center rounded-full bg-stone-950 text-white text-xs font-bold">
+          2
+        </span>
+        <h3 class="mt-3 font-display text-lg text-stone-950">Verified Syllabus</h3>
+        <p class="mt-1.5 text-xs leading-relaxed text-stone-600">
+          Complete unit-by-unit topics, lecture hours, and credit structures aligned with
+          AKTU schemes.
+        </p>
+        <a
+          href="/syllabus/"
+          class="mt-3 inline-block text-xs font-semibold text-stone-950 hover:underline"
+        >
+          Browse syllabus →
+        </a>
+      </div>
+      <div class="rounded-card border border-stone-200/80 bg-sand/30 p-5">
+        <span class="grid size-8 place-items-center rounded-full bg-stone-950 text-white text-xs font-bold">
+          3
+        </span>
+        <h3 class="mt-3 font-display text-lg text-stone-950">Topic-Wise Questions</h3>
+        <p class="mt-1.5 text-xs leading-relaxed text-stone-600">
+          Unit-wise questions tagged with marks, repetition frequency (past 5 years), and
+          answer outlines.
+        </p>
+        <a
+          href="/btech/"
+          class="mt-3 inline-block text-xs font-semibold text-stone-950 hover:underline"
+        >
+          Study question bank →
+        </a>
+      </div>
+      <div class="rounded-card border border-stone-200/80 bg-sand/30 p-5">
+        <span class="grid size-8 place-items-center rounded-full bg-stone-950 text-white text-xs font-bold">
+          4
+        </span>
+        <h3 class="mt-3 font-display text-lg text-stone-950">AKTU Updates Feed</h3>
+        <p class="mt-1.5 text-xs leading-relaxed text-stone-600">
+          Official university circulars, datesheets, and evaluation rules explained in
+          plain student terms.
+        </p>
+        <a
+          href="/updates/"
+          class="mt-3 inline-block text-xs font-semibold text-stone-950 hover:underline"
+        >
+          Read latest updates →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Subjects Section -->
+  <section class="container-page py-14 md:py-20" aria-labelledby="featured-heading">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <SectionHeading
+        id="featured-heading"
+        eyebrow="Study Library"
+        title="Complete Subject Hubs"
+        description="Unified subject pages bringing syllabus units, previous year papers, topic questions, and FAQs together."
+      />
+      <a
+        href="/courses/"
+        class="inline-flex h-10 items-center rounded-full border border-stone-300 bg-white px-4 text-sm font-medium text-stone-900 shadow-hairline hover:bg-stone-50"
+      >
+        View all courses →
+      </a>
+    </div>
+
+    {featured.length > 0 ? (
+      <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {featured.map((subject) => (
+          <SubjectCard subject={subject} />
+        ))}
+      </div>
+    ) : (
+      <div class="mt-8">
+        <EmptyState
+          title="The first subject hubs are being prepared"
+          description="We publish a subject only when it has verified syllabus facts and at least one useful resource."
+          actionHref="https://aktu.ac.in/syllabus.html"
+          actionLabel="Open official syllabus"
+        />
+      </div>
+    )}
+  </section>
+
+  <!-- Competitor Comparison Section: Why We Are Better -->
+  <section
+    class="border-y border-stone-200 bg-cream py-14 md:py-20"
+    aria-labelledby="compare-heading"
+  >
+    <div class="container-page">
+      <div class="max-w-2xl">
+        <p class="font-condensed text-xs font-bold uppercase tracking-[0.14em] text-stone-500">
+          The Engineering Standard
+        </p>
+        <h2
+          id="compare-heading"
+          class="mt-2 font-display text-3xl font-light text-stone-950 sm:text-4xl"
+        >
+          Built for students who respect their time.
+        </h2>
+        <p class="mt-3 text-sm leading-relaxed text-stone-600">
+          Traditional student resource portals force you through 30-second timers,
+          intrusive popups, and paywalled Telegram groups. Here is how we compare.
+        </p>
+      </div>
+
+      <div class="mt-8 overflow-x-auto">
+        <table class="w-full min-w-[600px] border-collapse text-left text-xs">
+          <thead>
+            <tr class="border-b border-stone-300 bg-stone-100/60 text-stone-900">
+              <th class="p-3.5 font-semibold">Evaluation Factor</th>
+              <th class="p-3.5 font-semibold text-accent-strong bg-sand/60">
+                Our Platform
+              </th>
+              <th class="p-3.5 font-medium text-stone-500">notesgallery.com</th>
+              <th class="p-3.5 font-medium text-stone-500">aktunotes.in</th>
+              <th class="p-3.5 font-medium text-stone-500">aktuonline.com</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-stone-200 bg-white">
+            <tr>
+              <td class="p-3.5 font-medium text-stone-900">Download Speed & Access</td>
+              <td class="p-3.5 font-semibold text-emerald-800 bg-sand/30">
+                Instant (0s Wait)
+              </td>
+              <td class="p-3.5 text-stone-600">30s Countdown timer</td>
+              <td class="p-3.5 text-stone-600">Telegram group lock</td>
+              <td class="p-3.5 text-stone-600">Slow ad-gated redirect</td>
+            </tr>
+            <tr>
+              <td class="p-3.5 font-medium text-stone-900">
+                Topic-Wise Questions by Unit
+              </td>
+              <td class="p-3.5 font-semibold text-emerald-800 bg-sand/30">
+                Yes (With Repeat Frequency)
+              </td>
+              <td class="p-3.5 text-stone-400">❌ None (Full scans only)</td>
+              <td class="p-3.5 text-stone-400">❌ None</td>
+              <td class="p-3.5 text-stone-400">❌ None (Unindexed PDFs)</td>
+            </tr>
+            <tr>
+              <td class="p-3.5 font-medium text-stone-900">Ads & Betting Popups</td>
+              <td class="p-3.5 font-semibold text-emerald-800 bg-sand/30">
+                Zero (0 Ads)
+              </td>
+              <td class="p-3.5 text-rose-700">Heavy banner/popup ads</td>
+              <td class="p-3.5 text-stone-600">Moderate popups</td>
+              <td class="p-3.5 text-rose-700">Aggressive popunders</td>
+            </tr>
+            <tr>
+              <td class="p-3.5 font-medium text-stone-900">Account / Login Wall</td>
+              <td class="p-3.5 font-semibold text-emerald-800 bg-sand/30">
+                None Required
+              </td>
+              <td class="p-3.5 text-stone-600">Optional</td>
+              <td class="p-3.5 text-rose-700">Locked behind VIP/Paywall</td>
+              <td class="p-3.5 text-stone-600">None</td>
+            </tr>
+            <tr>
+              <td class="p-3.5 font-medium text-stone-900">Mobile Page Load Time</td>
+              <td class="p-3.5 font-semibold text-emerald-800 bg-sand/30">
+                &lt; 1.0s (Static HTML)
+              </td>
+              <td class="p-3.5 text-stone-600">6–9s (WordPress bloat)</td>
+              <td class="p-3.5 text-stone-600">3–5s</td>
+              <td class="p-3.5 text-stone-600">4–7s</td>
+            </tr>
+            <tr>
+              <td class="p-3.5 font-medium text-stone-900">
+                Source Provenance & Licensing
+              </td>
+              <td class="p-3.5 font-semibold text-emerald-800 bg-sand/30">
+                100% Documented & Verified
+              </td>
+              <td class="p-3.5 text-stone-400">Scraped/Unverified</td>
+              <td class="p-3.5 text-stone-400">Unverified uploads</td>
+              <td class="p-3.5 text-stone-400">Unverified scans</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Tools Showcase -->
+  <section class="container-page py-14 md:py-20" aria-labelledby="tools-heading">
+    <SectionHeading
+      id="tools-heading"
+      eyebrow="Academic Utilities"
+      title="Built-in Tools for AKTU Students"
+      description="Calculate grades and check passing thresholds right in your browser. Fast, private, and offline-capable."
+    />
+    <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <a
+        href="/tools/sgpa-calculator/"
+        class="group rounded-card border border-stone-200 bg-white p-5 shadow-lift transition-colors hover:border-stone-400"
+      >
+        <span class="inline-flex items-center rounded-full bg-cream px-2.5 py-0.5 text-xs font-medium text-stone-800">
+          CBCS Calculator
+        </span>
+        <h3 class="mt-3 font-display text-xl text-stone-950">SGPA & Marks Calculator</h3>
+        <p class="mt-2 text-xs leading-relaxed text-stone-600">
+          Calculate semester SGPA and check compliance with the 30% external theory
+          threshold (≥21/70).
+        </p>
+        <span class="mt-4 inline-block text-xs font-semibold text-stone-950 group-hover:underline">
+          Launch tool →
+        </span>
+      </a>
+
+      <a
+        href={toolUrl('cgpa-calculator')}
+        class="group rounded-card border border-stone-200 bg-white p-5 shadow-lift transition-colors hover:border-stone-400"
+      >
+        <span class="inline-flex items-center rounded-full bg-cream px-2.5 py-0.5 text-xs font-medium text-stone-800">
+          Official Formula
+        </span>
+        <h3 class="mt-3 font-display text-xl text-stone-950">CGPA to Percentage</h3>
+        <p class="mt-2 text-xs leading-relaxed text-stone-600">
+          Official AKTU conversion: Percentage = (CGPA - 0.75) × 10 with division
+          calculation.
+        </p>
+        <span class="mt-4 inline-block text-xs font-semibold text-stone-950 group-hover:underline">
+          Launch tool →
+        </span>
+      </a>
+
+      <a
+        href="/updates/"
+        class="group rounded-card border border-stone-200 bg-white p-5 shadow-lift transition-colors hover:border-stone-400"
+      >
+        <span class="inline-flex items-center rounded-full bg-cream px-2.5 py-0.5 text-xs font-medium text-stone-800">
+          Circulars & Rules
+        </span>
+        <h3 class="mt-3 font-display text-xl text-stone-950">Rules & Notices Hub</h3>
+        <p class="mt-2 text-xs leading-relaxed text-stone-600">
+          Clear explanations of AKTU grace marks, challenge evaluation stages, and
+          carry-over promotion rules.
+        </p>
+        <span class="mt-4 inline-block text-xs font-semibold text-stone-950 group-hover:underline">
+          Browse updates →
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Latest Updates Section -->
+  {posts.length > 0 && (
+    <section class="border-t border-stone-200 bg-cream" aria-labelledby="updates-heading">
+      <div class="container-page py-14 md:py-20">
+        <div class="flex flex-wrap items-end justify-between gap-4">
+          <SectionHeading
+            id="updates-heading"
+            eyebrow="University Notices"
+            title="Latest Exam Updates & Circulars"
+            description="Clear, plain-language summaries of recent AKTU notifications and examination rules."
+          />
+          <a
+            href="/updates/"
+            class="inline-flex h-10 items-center rounded-full border border-stone-300 bg-white px-4 text-sm font-medium text-stone-900 shadow-hairline hover:bg-stone-50"
+          >
+            View all updates →
+          </a>
+        </div>
+        <div class="mt-8 grid gap-4 md:grid-cols-3">
+          {posts.map((post) => (
+            <article class="flex flex-col rounded-card border border-stone-200 bg-white p-5 shadow-lift transition-colors hover:border-stone-300">
+              <p class="text-xs text-stone-500">
+                {new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' }).format(
+                  post.data.published,
+                )}
+              </p>
+              <h3 class="mt-2 font-display text-xl leading-snug text-stone-950">
+                <a href={blogUrl(post.id)} class="hover:underline">
+                  {post.data.title}
+                </a>
+              </h3>
+              <p class="mt-2 line-clamp-3 text-sm leading-relaxed text-stone-600">
+                {post.data.description}
+              </p>
+              <div class="mt-auto pt-4 border-t border-stone-100 flex items-center justify-between text-xs">
+                <span class="font-semibold text-stone-950">Read guide →</span>
+                <span class="text-stone-400">#{post.data.tags[0] ?? 'aktu'}</span>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+</BaseLayout>

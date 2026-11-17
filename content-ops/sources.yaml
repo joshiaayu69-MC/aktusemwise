@@ -1,0 +1,248 @@
+# Source registry for every resource in the pipeline.
+#
+# Rules:
+# - Add a record BEFORE extracting facts or drafting.
+# - `allowed_operations` is the hard boundary. If an operation is not listed, do not do it.
+# - `rehost_pdf: false` means link to the source, do not copy the file into R2 or Git.
+# - `risk: high` or `licence: blocked` means stop and ask the editor.
+# - Verify each record at the time of use. Licences and URLs change.
+#
+# Validate with: npx tsx scripts/source-audit.ts
+
+- id: aktu-syllabus
+  title: AKTU official syllabus portal
+  url: https://aktu.ac.in/syllabus.html
+  publisher: Dr. A.P.J. Abdul Kalam Technical University, Lucknow
+  accessed_at: 2026-11-16
+  licence: official-facts-only
+  allowed_operations:
+    - facts-only
+    - link-only
+    - quote-limited
+  commercial_use_ok: true
+  attribution_required: true
+  share_alike: false
+  rehost_pdf: false
+  risk: medium
+  notes: >
+    Use for subject codes, names, units, topics, credits, and scheme facts. Do not copy
+    syllabus prose. Link the official PDF. Confirm the current scheme before publishing.
+
+- id: aktu-question-papers
+  title: AKTU previous-year question papers
+  url: https://aktu.ac.in/old-question-paper.html
+  publisher: Dr. A.P.J. Abdul Kalam Technical University, Lucknow
+  accessed_at: 2026-11-16
+  licence: official-facts-only
+  allowed_operations:
+    - facts-only
+    - link-only
+    - quote-limited
+  commercial_use_ok: true
+  attribution_required: true
+  share_alike: false
+  rehost_pdf: false
+  risk: medium
+  notes: >
+    Use for exam pattern, question wording facts, and year coverage. Do not rehost the
+    paper PDF without written permission. Solutions must be original.
+
+- id: aktu-notices
+  title: AKTU official notices and circulars
+  url: https://aktu.ac.in/
+  publisher: Dr. A.P.J. Abdul Kalam Technical University, Lucknow
+  accessed_at: 2026-11-16
+  licence: official-facts-only
+  allowed_operations:
+    - facts-only
+    - link-only
+    - quote-limited
+  commercial_use_ok: true
+  attribution_required: true
+  share_alike: false
+  rehost_pdf: false
+  risk: low
+  notes: >
+    The homepage lists current notices and circulars. Link the individual notice PDF and
+    include an accessed date. Do not present a notice as permanent policy.
+
+- id: openstax
+  title: OpenStax open textbooks
+  url: https://openstax.org/
+  publisher: Rice University
+  accessed_at: 2026-11-16
+  licence: cc-by-4.0
+  allowed_operations:
+    - facts-only
+    - adapt-cc-by
+    - rehost-cc-by
+  commercial_use_ok: true
+  attribution_required: true
+  share_alike: false
+  rehost_pdf: true
+  risk: low
+  notes: >
+    Verify the licence on the specific book page. Most OpenStax titles are CC BY 4.0.
+    Keep the required attribution, title, author, source link, and licence link.
+
+- id: open-textbook-library
+  title: Open Textbook Library
+  url: https://open.umn.edu/opentextbooks
+  publisher: University of Minnesota
+  accessed_at: 2026-11-16
+  licence: link-only
+  allowed_operations:
+    - facts-only
+    - link-only
+  commercial_use_ok: false
+  attribution_required: true
+  share_alike: false
+  rehost_pdf: false
+  risk: medium
+  notes: >
+    Licences vary by book. Use this record only to discover candidates; create a separate
+    record for the exact book after checking its licence page.
+
+- id: libretexts
+  title: LibreTexts
+  url: https://libretexts.org/
+  publisher: LibreTexts
+  accessed_at: 2026-11-16
+  licence: cc-by-sa-4.0
+  allowed_operations:
+    - facts-only
+    - link-only
+  commercial_use_ok: false
+  attribution_required: true
+  share_alike: true
+  rehost_pdf: false
+  risk: medium
+  notes: >
+    Many pages are CC BY-SA or CC BY-NC-SA. Verify each page. Treat NC as link-only.
+    Do not adapt SA material into a differently licensed resource.
+
+- id: wikibooks
+  title: Wikibooks
+  url: https://en.wikibooks.org/
+  publisher: Wikimedia Foundation
+  accessed_at: 2026-11-16
+  licence: cc-by-sa-4.0
+  allowed_operations:
+    - facts-only
+    - adapt-cc-by-sa
+    - rehost-cc-by-sa
+  commercial_use_ok: true
+  attribution_required: true
+  share_alike: true
+  rehost_pdf: true
+  risk: low
+  notes: >
+    Verify the page history and licence. Adaptations must be released under CC BY-SA 4.0
+    and must credit the contributors.
+
+- id: wikimedia-commons
+  title: Wikimedia Commons
+  url: https://commons.wikimedia.org/
+  publisher: Wikimedia Foundation
+  accessed_at: 2026-11-16
+  licence: cc-by-4.0
+  allowed_operations:
+    - facts-only
+    - adapt-cc-by
+    - rehost-cc-by
+  commercial_use_ok: true
+  attribution_required: true
+  share_alike: false
+  rehost_pdf: true
+  risk: medium
+  notes: >
+    Verify the licence on each file page. Some files are CC0, some CC BY-SA, some
+    fair-use only. Never use a fair-use file in a commercial PDF.
+
+- id: project-gutenberg
+  title: Project Gutenberg
+  url: https://www.gutenberg.org/
+  publisher: Project Gutenberg
+  accessed_at: 2026-11-16
+  licence: public-domain
+  allowed_operations:
+    - facts-only
+    - rehost-cc0-pd
+  commercial_use_ok: true
+  attribution_required: true
+  share_alike: false
+  rehost_pdf: true
+  risk: low
+  notes: >
+    Verify public-domain status in India and the source country. Keep the Gutenberg
+    header/licence text when required. Do not use non-US works without a separate check.
+
+- id: data-gov-in
+  title: Open Government Data Platform India
+  url: https://data.gov.in/
+  publisher: Government of India
+  accessed_at: 2026-11-16
+  licence: godl-1.0
+  allowed_operations:
+    - facts-only
+    - rehost-godl
+  commercial_use_ok: true
+  attribution_required: true
+  share_alike: false
+  rehost_pdf: true
+  risk: low
+  notes: >
+    Check the dataset metadata for exceptions and attribution requirements. Keep the
+    source link and the GODL licence notice.
+
+- id: mit-ocw
+  title: MIT OpenCourseWare
+  url: https://ocw.mit.edu/
+  publisher: Massachusetts Institute of Technology
+  accessed_at: 2026-11-16
+  licence: cc-by-nc-sa-4.0
+  allowed_operations:
+    - facts-only
+    - link-only
+  commercial_use_ok: false
+  attribution_required: true
+  share_alike: true
+  rehost_pdf: false
+  risk: low
+  notes: >
+    NC-SA. Link only while the site carries ads or any commercial purpose. Do not adapt
+    or rehost without a separate legal review.
+
+- id: nptel
+  title: NPTEL
+  url: https://nptel.ac.in/
+  publisher: IITs and IISc
+  accessed_at: 2026-11-16
+  licence: link-only
+  allowed_operations:
+    - facts-only
+    - link-only
+  commercial_use_ok: false
+  attribution_required: true
+  share_alike: false
+  rehost_pdf: false
+  risk: low
+  notes: >
+    Copyrighted unless a specific course says otherwise. Link to the course page; do
+    not copy slides, transcripts, or assignments.
+
+- id: blocked-example-coaching
+  title: Example coaching PDF (blocked)
+  url: https://example.com/blocked-coaching-notes.pdf
+  accessed_at: 2026-11-16
+  licence: blocked
+  allowed_operations:
+    - facts-only
+  commercial_use_ok: false
+  attribution_required: true
+  share_alike: false
+  rehost_pdf: false
+  risk: high
+  notes: >
+    Placeholder showing how a blocked source must look. Replace or delete before launch.
+    Never extract expression, examples, diagrams, or question banks from a blocked source.

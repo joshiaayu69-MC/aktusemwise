@@ -1,0 +1,368 @@
+code: BCS501
+name: Database Management System
+course: btech
+branches: [cse, it, aiml, cse-ai]
+semester: 5
+scheme: 2022-23
+credits: 4
+source_url: https://aktu.ac.in/syllabus.html
+verified: true
+draft: false
+last_verified: 2026-11-16
+updated: 2026-11-17
+description: >
+  Database Management Systems (BCS501) is a foundational fifth-semester B.Tech subject for
+  Computer Science, Information Technology, and allied computing branches under AKTU. The course
+  develops practical and theoretical competency across the database life cycle, beginning with
+  the ANSI-SPARC three-schema architecture, data independence, and detailed Entity-Relationship
+  (ER) and Extended ER modeling. It progresses through the mathematical foundations of the
+  relational model, relational algebra, and formal query languages into Structured Query
+  Language (SQL) syntax, complex joins, nested subqueries, views, and integrity constraints.
+  A major emphasis is placed on relational database design theory, functional dependency
+  inference using Armstrong axioms, and normalization up to Boyce-Codd Normal Form (BCNF)
+  and multi-valued dependencies. The latter modules explore transaction processing, ACID
+  properties, serializability schedules, lock-based and timestamp concurrency protocols, crash
+  recovery mechanisms, file organization, B/B+ tree indexing, and cost-based query optimization.
+  In AKTU end-semester evaluations, Section A tests precise architectural definitions and normal
+  form conditions, Section B focuses on ER diagram conversions and SQL queries, while Section C
+  presents multi-part normalization decompositions and transaction serializability proofs.
+syllabus_units:
+  - unit: 1
+    title: 'Introduction to Database Systems and Conceptual Modeling'
+    hours: 8
+    marks: 14
+    topics:
+      - 'Overview of DBMS and file processing comparison'
+      - 'Three-schema architecture and data independence (physical vs logical)'
+      - 'Database system architecture (centralized, client-server, parallel, distributed)'
+      - 'Data models (hierarchical, network, relational, object-oriented)'
+      - 'Database users and responsibilities of Database Administrator (DBA)'
+      - 'Entity-Relationship (ER) model concepts and design constraints'
+      - 'Extended ER features: Specialization, Generalization, Aggregation, Category'
+      - 'Systematic transformation of ER diagrams into relational tables'
+    questions:
+      - question: 'Explain the three-schema architecture of a database system. How does it achieve physical and logical data independence?'
+        marks: 10
+        frequency: 4
+        years: ['2024-25', '2022-23', '2021-22', '2018-19']
+        key_points:
+          - 'Draw the three-tier diagram (Physical/Internal, Conceptual/Logical, External/View levels).'
+          - 'Define physical data independence with an example (modifying storage devices or index structures without altering logical schema).'
+          - 'Define logical data independence (altering logical schema such as adding attributes without affecting existing application views).'
+          - 'Highlight why data independence eliminates program-data dependence present in conventional file systems.'
+        importance: high
+      - question: 'Differentiate between Specialization, Generalization, and Aggregation in Extended ER diagrams with illustrative examples.'
+        marks: 10
+        frequency: 3
+        years: ['2023-24', '2022-23', '2019-20']
+        key_points:
+          - 'Define Specialization as top-down approach creating lower-level entity subclasses with specific attributes.'
+          - 'Define Generalization as bottom-up synthesis combining common attributes of multiple entities into a superclass.'
+          - 'Define Aggregation as abstraction treating relationship instances as higher-level entities.'
+          - 'Provide clear diagrams (e.g. Employee superclass with Salaried/Hourly subclasses; Project-Sponsorship aggregation).'
+        importance: high
+      - question: 'Enumerate the major duties and privileges of a Database Administrator (DBA).'
+        marks: 2
+        frequency: 5
+        years: ['2024-25', '2023-24', '2021-22', '2020-21', '2018-19']
+        key_points:
+          - 'Schema definition and physical storage/access method specification.'
+          - 'User authorization and security privilege allocation.'
+          - 'Backup coordination, performance tuning, and crash recovery.'
+        importance: high
+      - question: 'Distinguish between Strong Entity Sets and Weak Entity Sets with diagrammatic representation.'
+        marks: 2
+        frequency: 4
+        years: ['2023-24', '2022-23', '2020-21', '2019-20']
+        key_points:
+          - 'Strong entity possesses sufficient primary key attributes; weak entity depends on identifying relationship and discriminator.'
+          - 'Notated with double rectangles, double diamonds, and dashed underlines for discriminators.'
+          - 'Standard example: Employee (identifying strong entity) and Dependent (weak entity).'
+        importance: high
+
+  - unit: 2
+    title: 'Relational Data Model, Relational Algebra, and Calculus'
+    hours: 8
+    marks: 14
+    topics:
+      - 'Relational model terminology (relations, tuples, attributes, domains, degree, cardinality)'
+      - 'Integrity constraints (domain, entity integrity, referential integrity, key constraints)'
+      - 'Fundamental relational algebra operations (Select, Project, Union, Set Difference, Cartesian Product, Rename)'
+      - 'Additional relational algebra operations (Set Intersection, Natural Join, Theta Join, Division)'
+      - 'Tuple Relational Calculus (TRC) syntax, semantics, and existential/universal quantifiers'
+      - 'Domain Relational Calculus (DRC) and safety of expressions'
+      - "Codd's 12 rules for relational databases"
+    questions:
+      - question: 'What is referential integrity constraint? Explain with a schema diagram and describe foreign key cascade deletion.'
+        marks: 10
+        frequency: 4
+        years: ['2024-25', '2023-24', '2020-21', '2018-19']
+        key_points:
+          - 'Define referential integrity: foreign key value in referencing relation must match a primary key value in referenced relation or be null.'
+          - 'Illustrate Department (DeptID PK) and Employee (DeptID FK) schema.'
+          - 'Explain ON DELETE CASCADE, ON DELETE SET NULL, and ON DELETE RESTRICT behavior with concrete tuples.'
+        importance: high
+      - question: 'Explain fundamental operations of Relational Algebra with formal algebraic notation and examples.'
+        marks: 10
+        frequency: 3
+        years: ['2023-24', '2021-22', '2019-20']
+        key_points:
+          - 'Define Selection (sigma), Projection (pi), Union (U), Set Difference (-), Cartesian Product (X), and Rename (rho).'
+          - 'Show how derived operators (Intersection, Natural Join, Division) are formulated using fundamental primitives.'
+          - 'Solve a small relational algebra query on Student-Course tables.'
+        importance: high
+      - question: 'Define Tuple Relational Calculus (TRC) and state the condition for an expression to be safe.'
+        marks: 2
+        frequency: 3
+        years: ['2024-25', '2022-23', '2019-20']
+        key_points:
+          - 'Formal syntax: predicate calculus formula over tuple variables.'
+          - 'Safety condition: all values in the result must belong to the domain of the expression (avoiding infinite relation results).'
+        importance: medium
+
+  - unit: 3
+    title: 'Structured Query Language (SQL) and Normalization Theory'
+    hours: 9
+    marks: 14
+    topics:
+      - 'SQL Data Definition Language (DDL) and Data Manipulation Language (DML)'
+      - 'Aggregate functions, GROUP BY, HAVING, and ORDER BY clauses'
+      - 'Complex subqueries, correlated subqueries, set operations, and joins (Inner, Outer, Cross)'
+      - 'Views, assertions, triggers, and authorization (GRANT, REVOKE)'
+      - 'Functional dependencies, closure of attribute sets, and Armstrong axioms'
+      - 'Normal forms: 1NF, 2NF, 3NF, Boyce-Codd Normal Form (BCNF), 4NF, 5NF'
+      - 'Lossless join decomposition and dependency preserving decomposition algorithms'
+    questions:
+      - question: 'What are functional dependencies? Given a relational schema R(A,B,C,D,E) with FDs, determine candidate keys and decompose into 3NF and BCNF.'
+        marks: 10
+        frequency: 5
+        years: ['2024-25', '2023-24', '2022-23', '2021-22', '2020-21']
+        key_points:
+          - 'Define FD X -> Y and attribute closure X+ algorithm.'
+          - 'Compute candidate key using closure algorithm.'
+          - 'State 3NF condition (X is superkey OR Y is prime attribute) vs BCNF (X must be superkey).'
+          - 'Perform lossless decomposition and test dependency preservation step-by-step.'
+        importance: high
+      - question: 'Compare and contrast 3NF and BCNF with a suitable counterexample showing a relation in 3NF but not in BCNF.'
+        marks: 10
+        frequency: 4
+        years: ['2023-24', '2022-23', '2020-21', '2019-20']
+        key_points:
+          - 'Strict definition comparison: BCNF eliminates all redundancy from functional dependencies.'
+          - 'Classic example: R(Student, Subject, Teacher) with FDs where Subject is prime.'
+          - 'Show that R is in 3NF because Subject is prime, but violates BCNF because Teacher is not a superkey.'
+          - 'Explain why BCNF cannot always preserve functional dependencies.'
+        importance: high
+      - question: 'Differentiate between WHERE clause and HAVING clause in SQL with a query example.'
+        marks: 2
+        frequency: 5
+        years: ['2024-25', '2023-24', '2022-23', '2021-22', '2018-19']
+        key_points:
+          - 'WHERE filters individual rows before grouping; HAVING filters groups after aggregation.'
+          - 'WHERE cannot use aggregate functions directly; HAVING is evaluated after GROUP BY.'
+          - 'Query example: SELECT DeptID, AVG(Salary) FROM Emp GROUP BY DeptID HAVING AVG(Salary) > 50000;'
+        importance: high
+      - question: "State Armstrong's Axioms for functional dependencies."
+        marks: 2
+        frequency: 3
+        years: ['2022-23', '2021-22', '2019-20']
+        key_points:
+          - 'Reflexivity rule: If Y is a subset of X, then X -> Y.'
+          - 'Augmentation rule: If X -> Y, then XZ -> YZ.'
+          - 'Transitivity rule: If X -> Y and Y -> Z, then X -> Z.'
+        importance: medium
+
+  - unit: 4
+    title: 'Transaction Processing, Serializability, and Concurrency Control'
+    hours: 8
+    marks: 14
+    topics:
+      - 'Transaction concept, ACID properties, and transaction execution state diagram'
+      - 'Concurrent executions, anomalies (dirty read, lost update, unrepeatable read, phantom read)'
+      - 'Schedules, conflict serializability, precedence (serialization) graph testing'
+      - 'View serializability and blind writes'
+      - 'Recoverability (recoverable schedules, cascading aborts, cascadeless schedules)'
+      - 'Concurrency control protocols: Lock-based protocols (Shared/Exclusive locks, 2PL, Strict 2PL)'
+      - 'Timestamp ordering protocol and Thomas write rule'
+      - 'Deadlock prevention (Wait-Die, Wound-Wait) and deadlock detection/recovery'
+    questions:
+      - question: 'Define ACID properties of transactions. Explain how DBMS ensures each property with system components.'
+        marks: 10
+        frequency: 5
+        years: ['2024-25', '2023-24', '2022-23', '2021-22', '2019-20']
+        key_points:
+          - 'Atomicity (All or nothing) handled by Recovery Manager with undo logs.'
+          - 'Consistency (Preserves database integrity constraints) handled by constraints and logic.'
+          - 'Isolation (Concurrent transactions do not interfere) handled by Concurrency Control Manager.'
+          - 'Durability (Committed updates persist across failures) handled by Recovery Manager with redo logs.'
+        importance: high
+      - question: 'What is conflict serializability? Construct a precedence graph for a given schedule and determine if it is conflict serializable.'
+        marks: 10
+        frequency: 4
+        years: ['2024-25', '2022-23', '2021-22', '2020-21']
+        key_points:
+          - 'Define conflicting operations: different transactions, same data item, at least one write.'
+          - 'Describe conflict equivalence through non-conflicting swap operations.'
+          - 'Precedence graph construction: directed edge Ti -> Tj if conflicting operation in Ti precedes Tj.'
+          - 'Theorem: a schedule is conflict serializable if and only if its precedence graph is acyclic.'
+        importance: high
+      - question: 'Explain Two-Phase Locking (2PL) protocol. How does Strict 2PL prevent cascading rollbacks?'
+        marks: 10
+        frequency: 4
+        years: ['2023-24', '2022-23', '2020-21', '2018-19']
+        key_points:
+          - 'Growing phase (locks acquired, none released) and Shrinking phase (locks released, none acquired).'
+          - 'Prove that Basic 2PL ensures conflict serializability but does not prevent deadlocks or cascading aborts.'
+          - 'Define Strict 2PL: all exclusive locks held until transaction commits or aborts.'
+          - 'Rigorous 2PL: all shared and exclusive locks held until commit or abort.'
+        importance: high
+      - question: 'Differentiate between Wait-Die and Wound-Wait deadlock prevention schemes.'
+        marks: 2
+        frequency: 3
+        years: ['2024-25', '2021-22', '2019-20']
+        key_points:
+          - 'Both use timestamps of transaction arrival where older transactions have smaller timestamps.'
+          - 'Wait-Die (non-preemptive): older transaction waits for younger; younger dies if requesting older.'
+          - 'Wound-Wait (preemptive): older wounds/preempts younger; younger waits for older.'
+        importance: medium
+
+  - unit: 5
+    title: 'Storage Organization, Indexing, Hashing, and Query Processing'
+    hours: 7
+    marks: 14
+    topics:
+      - 'Physical storage media hierarchy, magnetic disk characteristics, and block storage'
+      - 'File organization (heap, sequential, hash, clustered files)'
+      - 'Indexing structures (ordered indices, dense index vs sparse index, primary vs secondary indices)'
+      - 'Multilevel indexing and B-tree and B+ tree index structures (insertion, deletion, search)'
+      - 'Static hashing, hash functions, collision resolution, and dynamic hashing (extendible hashing)'
+      - 'Query processing workflow: Parsing, translation, relational algebra equivalence, and evaluation'
+      - 'Measures of query cost (disk block access count) and heuristic query optimization'
+    questions:
+      - question: 'Differentiate between B-Tree and B+ Tree indexing structures. Construct a B+ tree of order 3 for a given sequence of keys.'
+        marks: 10
+        frequency: 4
+        years: ['2024-25', '2023-24', '2021-22', '2020-21']
+        key_points:
+          - 'B-tree stores keys and record pointers in both internal and leaf nodes.'
+          - 'B+ tree stores record pointers only in leaf nodes; internal nodes store search keys only.'
+          - 'Leaf nodes in B+ tree are linked sequentially via linked list, allowing fast range queries.'
+          - 'Demonstrate step-by-step key insertion, node overflow, and splitting at middle key.'
+        importance: high
+      - question: 'Explain the steps involved in Query Processing with a block diagram. How are heuristic optimization rules applied?'
+        marks: 10
+        frequency: 3
+        years: ['2023-24', '2022-23', '2019-20']
+        key_points:
+          - 'Workflow: High-level query -> Parser & Translator -> Relational Algebra -> Optimizer -> Engine.'
+          - 'Heuristic rules: Perform selection operations as early as possible (push selections down).'
+          - 'Perform projection operations early to reduce tuple width and intermediate relation sizes.'
+          - 'Combine selections with Cartesian product to form Joins.'
+        importance: high
+      - question: 'Contrast Dense Index and Sparse Index with storage tradeoffs.'
+        marks: 2
+        frequency: 4
+        years: ['2024-25', '2022-23', '2021-22', '2018-19']
+        key_points:
+          - 'Dense index contains an index record for every search key value in file.'
+          - 'Sparse index contains index records for only some search key values (usually block anchors).'
+          - 'Dense index searches faster but requires more storage; sparse index saves space and overhead.'
+        importance: high
+      - question: 'What is Extendible Hashing? How does it handle bucket overflow without performance degradation?'
+        marks: 2
+        frequency: 3
+        years: ['2023-24', '2020-21', '2019-20']
+        key_points:
+          - 'Dynamic hashing technique using a directory of pointers and global/local depth indicators.'
+          - 'When bucket overflows with local depth equal to global depth, directory size doubles.'
+        importance: medium
+
+resources:
+  - type: pyq
+    title: 2024–25 End Semester Question Paper (BCS501)
+    year: 2024-25
+    official_url: https://aktu.ac.in/old-question-paper.html
+    source: official-link
+    licence: godl-1.0
+    verified: true
+    reviewer: Academic Review Board
+    reviewed_at: 2026-11-16
+    source_basis:
+      - url: https://aktu.ac.in/old-question-paper.html
+        use: link-only
+  - type: pyq
+    title: 2023–24 End Semester Question Paper (BCS501)
+    year: 2023-24
+    official_url: https://aktu.ac.in/old-question-paper.html
+    source: official-link
+    licence: godl-1.0
+    verified: true
+    reviewer: Academic Review Board
+    reviewed_at: 2026-11-16
+    source_basis:
+      - url: https://aktu.ac.in/old-question-paper.html
+        use: link-only
+  - type: pyq
+    title: 2022–23 End Semester Question Paper (BCS501)
+    year: 2022-23
+    official_url: https://aktu.ac.in/old-question-paper.html
+    source: official-link
+    licence: godl-1.0
+    verified: true
+    reviewer: Academic Review Board
+    reviewed_at: 2026-11-16
+    source_basis:
+      - url: https://aktu.ac.in/old-question-paper.html
+        use: link-only
+  - type: pyq
+    title: 2021–22 End Semester Question Paper (KCS501)
+    year: 2021-22
+    official_url: https://aktu.ac.in/old-question-paper.html
+    source: official-link
+    licence: godl-1.0
+    verified: true
+    reviewer: Academic Review Board
+    reviewed_at: 2026-11-16
+    source_basis:
+      - url: https://aktu.ac.in/old-question-paper.html
+        use: link-only
+  - type: syllabus
+    title: Official AKTU BCS501 Syllabus & Credit Structure
+    official_url: https://aktu.ac.in/syllabus.html
+    source: official-link
+    licence: godl-1.0
+    verified: true
+    reviewer: Academic Review Board
+    reviewed_at: 2026-11-16
+    source_basis:
+      - url: https://aktu.ac.in/syllabus.html
+        use: link-only
+
+faqs:
+  - question: What is the AKTU end-semester question paper pattern for BCS501?
+    answer: >
+      The AKTU end-semester examination for BCS501 is worth 70 marks (for the 2022-23 scheme) with
+      a duration of 3 hours. Section A consists of 7 short compulsory questions of 2 marks each
+      (14 marks) covering all 5 units. Section B contains 5 medium questions of 7 marks each (or
+      longer 10-mark problems depending on evaluation scheme revisions), where students attempt 3
+      questions. Section C has 5 pairs of unit-wise internal choice questions (7 marks each),
+      requiring one answer per unit.
+  - question: Which units carry the highest mathematical and numerical weightage in BCS501?
+    answer: >
+      Unit 3 (Relational Database Design and Normalization) and Unit 4 (Transaction Processing and
+      Concurrency Control) carry the highest numerical weight. Expect full 7-to-10 mark questions
+      on functional dependency closure, candidate key derivation, 3NF/BCNF decomposition proofs,
+      and conflict serializability precedence graph analysis.
+  - question: Does BCS501 include an associated practical laboratory exam?
+    answer: >
+      Yes, BCS551 (Database Management Systems Lab) is scheduled concurrently in semester 5. It
+      evaluates practical proficiency in SQL DDL/DML, nested joins, PL/SQL stored procedures,
+      triggers, and cursors through weekly practical assessments and an external viva voce.
+  - question: Are the question papers and notes here official university publications?
+    answer: >
+      No. All syllabus facts and question paper links reference the official AKTU portal directly.
+      Topic questions, preparation outlines, and solutions are independent educational resources
+      created and verified by university subject toppers to assist peer students free of cost.
+
+aliases: [dbms, database-management-systems, bcs-501, kcs501]
+tags: [database, sql, normalization, bcnf, transactions, 2pl, btree, aktu]

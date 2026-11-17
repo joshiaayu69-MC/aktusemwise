@@ -1,0 +1,168 @@
+---
+import PageHero from '../../components/PageHero.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPublishedSubjects } from '../../lib/content';
+import { courses, getBranchesForCourse, schemes } from '../../lib/taxonomy';
+import { subjectUrl } from '../../lib/urls';
+
+const subjects = await getPublishedSubjects();
+
+// Extract all PYQs across all published subjects
+const pyqList = subjects.flatMap((s) => {
+  const pyqs = s.data.resources.filter((r) => r.type === 'pyq');
+  return pyqs.map((p) => ({
+    subjectCode: s.data.code,
+    subjectName: s.data.name,
+    semester: s.data.semester,
+    course: s.data.course,
+    branches: s.data.branches,
+    title: p.title,
+    year: p.year,
+    url: p.official_url || subjectUrl(s.data.code),
+    subjectUrl: subjectUrl(s.data.code),
+    verified: p.verified,
+  }));
+});
+
+const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Previous Year Papers' }];
+---
+
+<BaseLayout
+  title="AKTU Previous Year Question Papers (PYQ) | Free Downloads"
+  description="Download official AKTU previous year question papers (PYQs) for B.Tech CSE, IT, ECE, EE, ME, Civil across all semesters. Zero popups, zero countdowns."
+  breadcrumbs={breadcrumbs}
+>
+  <PageHero
+    eyebrow="Examination Repository"
+    title="AKTU Previous Year Question Papers"
+    description="Browse end-semester university question papers sorted by subject, semester, and branch. Direct links with no countdowns, ads, or login walls."
+    breadcrumbs={breadcrumbs}
+  />
+
+  <div class="container-page py-10 md:py-14">
+    <div class="grid gap-8 lg:grid-cols-[18rem_minmax(0,1fr)]">
+      <!-- Quick Filter Sidebar -->
+      <aside class="space-y-6">
+        <div class="rounded-card border border-stone-200 bg-cream p-5 shadow-hairline">
+          <h2 class="font-condensed text-xs font-bold uppercase tracking-[0.14em] text-stone-500">
+            Browse by Course
+          </h2>
+          <ul class="mt-3 space-y-2 text-sm">
+            {courses.map((course) => (
+              <li>
+                <a
+                  href={`#${course.slug}`}
+                  class="flex items-center justify-between font-medium text-stone-800 hover:text-stone-950"
+                >
+                  <span>{course.name}</span>
+                  <span class="rounded-full bg-stone-200/60 px-2 py-0.5 text-xs text-stone-600">
+                    {course.semesters} Sems
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="rounded-card border border-stone-200 bg-white p-5 shadow-hairline">
+          <h2 class="font-condensed text-xs font-bold uppercase tracking-[0.14em] text-stone-500">
+            Our Advantage
+          </h2>
+          <ul class="mt-3 space-y-2.5 text-xs text-stone-600">
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-600 font-bold">✓</span>
+              <span>
+                <strong>0 Countdowns:</strong> Instant access, no "Wait 30s" timers.
+              </span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-600 font-bold">✓</span>
+              <span>
+                <strong>0 Popups:</strong> No redirects to betting or gambling websites.
+              </span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-600 font-bold">✓</span>
+              <span>
+                <strong>Verified Codes:</strong> Strict match with official AKTU
+                evaluation scheme.
+              </span>
+            </li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- Papers Catalog -->
+      <div class="min-w-0 space-y-10">
+        <section>
+          <div class="border-b border-stone-200 pb-4">
+            <h2 class="font-display text-2xl text-stone-950">
+              Available Question Papers
+            </h2>
+            <p class="mt-1 text-sm text-stone-600">
+              Select any paper to view official questions or jump to the comprehensive
+              subject hub for topic-wise question analysis.
+            </p>
+          </div>
+
+          <div class="mt-6 grid gap-4 sm:grid-cols-2">
+            {pyqList.map((item) => (
+              <article class="rounded-card border border-stone-200/90 bg-white p-5 shadow-lift transition-colors hover:border-stone-300">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="inline-flex items-center rounded-full bg-cream px-2.5 py-0.5 text-xs font-medium text-stone-800">
+                    {item.subjectCode} · Sem {item.semester}
+                  </span>
+                  {item.year && (
+                    <span class="font-mono text-xs font-semibold text-accent-strong">
+                      {item.year}
+                    </span>
+                  )}
+                </div>
+
+                <h3 class="mt-3 font-display text-lg text-stone-950 leading-snug">
+                  {item.title}
+                </h3>
+                <p class="mt-1 text-xs text-stone-500">{item.subjectName}</p>
+
+                <div class="mt-5 flex items-center justify-between gap-2 pt-2 border-t border-stone-100 text-xs">
+                  <a
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener"
+                    class="font-semibold text-stone-950 hover:underline"
+                  >
+                    Open Paper →
+                  </a>
+                  <a href={item.subjectUrl} class="text-stone-500 hover:text-stone-800">
+                    Subject Hub →
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <!-- Branch Guides -->
+        <section class="rounded-card-lg border border-stone-200 bg-cream p-6">
+          <h2 class="font-display text-xl text-stone-950">
+            Looking for a specific branch?
+          </h2>
+          <p class="mt-2 text-sm text-stone-600">
+            Browse our dedicated branch repositories to view subjects, syllabus
+            breakdowns, and topic-wise questions for your current semester.
+          </p>
+          <div class="mt-5 flex flex-wrap gap-2">
+            {getBranchesForCourse('btech').map((branch) => (
+              <a
+                href={`/btech/${branch.slug}/`}
+                class="inline-flex h-9 items-center rounded-full border border-stone-300 bg-white px-3.5 text-xs font-medium text-stone-800 shadow-hairline hover:bg-stone-50"
+              >
+                {branch.name} ({branch.full_name})
+              </a>
+            ))}
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

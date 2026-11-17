@@ -1,0 +1,8 @@
+# Cloudflare redirects. Add 301 rules here when a public URL changes.
+# Format: /old-path /new-path 301
+#
+# Examples:
+# /old-subject /subject/bcs501/ 301
+# /notes/bcs501 /subject/bcs501/notes/ 301
+#
+# Keep this file in the repo so redirects are reviewed with the content change.

@@ -1,0 +1,110 @@
+---
+import { render } from 'astro:content';
+import PageHero from '../../components/PageHero.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPublishedBlogPosts } from '../../lib/content';
+import { buildBlogPosting } from '../../lib/schema';
+import { SITE } from '../../lib/site';
+import { blogUrl } from '../../lib/urls';
+
+export async function getStaticPaths() {
+  const posts = await getPublishedBlogPosts();
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const siteUrl = (Astro.site ?? new URL(SITE.url)).toString();
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Updates', href: '/blog/' },
+  { label: post.data.title },
+];
+
+const jsonLd = [
+  buildBlogPosting({
+    title: post.data.title,
+    description: post.data.description,
+    url: blogUrl(post.id),
+    siteUrl,
+    published: post.data.published,
+    updated: post.data.updated,
+    author: post.data.author,
+    image: post.data.hero_image,
+  }),
+];
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  breadcrumbs={breadcrumbs}
+  jsonLd={jsonLd}
+  type="article"
+  noindex={post.data.draft || !post.data.verified}
+>
+  <PageHero
+    eyebrow={post.data.tags[0] ?? 'Update'}
+    title={post.data.title}
+    description={post.data.description}
+    breadcrumbs={breadcrumbs}
+  >
+    <div class="mt-5 flex flex-wrap gap-x-4 gap-y-1 text-sm text-stone-500">
+      <span>
+        Published{' '}
+        {new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' }).format(
+          post.data.published,
+        )}
+      </span>
+      {post.data.updated && (
+        <span>
+          Updated{' '}
+          {new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' }).format(
+            post.data.updated,
+          )}
+        </span>
+      )}
+      <span>By {post.data.author}</span>
+      {post.data.draft && <span class="text-red-700">Draft preview</span>}
+    </div>
+  </PageHero>
+
+  <div class="container-page py-10 md:py-14">
+    <article
+      class="prose-aktu max-w-3xl"
+      data-pagefind-body
+      data-pagefind-meta={`title:${post.data.title}`}
+      data-pagefind-filter="type:blog"
+    >
+      <Content />
+
+      {post.data.source_url && (
+        <p class="mt-8 rounded-card border border-blue-200 bg-blue-50 p-4 text-sm text-blue-950">
+          Official source:{' '}
+          <a href={post.data.source_url} rel="noopener" target="_blank">
+            open the original notice
+          </a>
+          . Always confirm dates and eligibility on the official page.
+        </p>
+      )}
+
+      <div class="mt-10 border-t border-stone-200 pt-5 text-sm text-stone-500">
+        <p>
+          {post.data.ai_assisted
+            ? 'This draft was AI-assisted and reviewed by a human before publication.'
+            : 'This post was written and reviewed by the editorial team.'}
+        </p>
+        {post.data.reviewer && <p class="mt-1">Reviewer: {post.data.reviewer}</p>}
+        <p class="mt-3">
+          <a href="/blog/" class="text-accent-strong hover:underline">
+            ← Back to all updates
+          </a>
+        </p>
+      </div>
+    </article>
+  </div>
+</BaseLayout>

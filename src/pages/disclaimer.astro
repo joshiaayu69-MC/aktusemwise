@@ -1,0 +1,64 @@
+---
+import LegalLayout from '../layouts/LegalLayout.astro';
+import { NON_AFFILIATION, SITE } from '../lib/site';
+
+const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Disclaimer' }];
+---
+
+<LegalLayout
+  title="Disclaimer"
+  description="This site is independent and not affiliated with AKTU. Read the accuracy, source, and AI disclosure notes."
+  breadcrumbs={breadcrumbs}
+  updated="16 November 2026"
+>
+  <h2>No affiliation with AKTU</h2>
+  <p>{NON_AFFILIATION}</p>
+  <p>
+    We do not use the AKTU logo, seal, or official visual identity, and we do not claim to
+    be an official university website.
+  </p>
+
+  <h2>Sources and accuracy</h2>
+  <p>
+    Syllabus facts come from official AKTU documents or verified sources. Notes,
+    solutions, question banks, model papers, and guides are original study material. We
+    link official documents instead of rehosting them. We try to keep dates, codes, and
+    marks accurate, but university rules can change. Always confirm with the official AKTU
+    page or your examination cell.
+  </p>
+
+  <h2>No guarantee of outcomes</h2>
+  <p>
+    We do not guarantee marks, ranks, results, scholarships, admission, or eligibility.
+    Study material is a support, not a substitute for the official syllabus, classroom
+    teaching, or your own work.
+  </p>
+
+  <h2>AI-assisted content</h2>
+  <p>
+    Some drafts are AI-assisted. Every published resource is reviewed by a human before it
+    goes live. The page records whether AI assistance was used. If you find an error,
+    report it and we will correct it.
+  </p>
+
+  <h2>External links</h2>
+  <p>
+    Links to AKTU and other third-party sites are provided for convenience. We do not
+    control those sites and are not responsible for their content, availability, or
+    policies.
+  </p>
+
+  <h2>Not professional advice</h2>
+  <p>
+    Nothing on this site is legal, medical, financial, or official academic advice. For
+    decisions that affect your registration, examination, or career, consult the
+    university or a qualified professional.
+  </p>
+
+  <h2>Report an issue</h2>
+  <p>
+    Corrections: <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+    <br />
+    Copyright: <a href={`mailto:${SITE.grievanceEmail}`}>{SITE.grievanceEmail}</a>
+  </p>
+</LegalLayout>

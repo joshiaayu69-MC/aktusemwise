@@ -1,0 +1,61 @@
+---
+import LegalLayout from '../layouts/LegalLayout.astro';
+import { SITE } from '../lib/site';
+
+const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Contact' }];
+---
+
+<LegalLayout
+  title="Contact"
+  description="Contact the editorial team for corrections, copyright complaints, or general questions."
+  breadcrumbs={breadcrumbs}
+  updated="16 November 2026"
+>
+  <p>
+    We are a small editorial team. Email is the fastest way to reach us. Please use the
+    correct address so your message reaches the right queue.
+  </p>
+
+  <h2>General and corrections</h2>
+  <p>
+    Email: <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+  </p>
+  <p>Include:</p>
+  <ul>
+    <li>the page URL and the exact section,</li>
+    <li>what is wrong and what it should say,</li>
+    <li>a link or citation that supports the correction, and</li>
+    <li>your name if you want credit for the correction.</li>
+  </ul>
+
+  <h2>Copyright and takedown</h2>
+  <p>
+    Email: <a href={`mailto:${SITE.grievanceEmail}`}>{SITE.grievanceEmail}</a>
+  </p>
+  <p>
+    See the <a href="/takedown/">Copyright &amp; Takedown</a> page for the information we
+    need and the timelines we follow. Do not send a public link to the disputed file.
+  </p>
+
+  <h2>What we cannot help with</h2>
+  <ul>
+    <li>Checking your result, registration, or admit card.</li>
+    <li>Recovering a university portal password.</li>
+    <li>Guaranteeing marks, ranks, scholarships, or admission.</li>
+    <li>Sharing leaked papers or personal student data.</li>
+  </ul>
+  <p>
+    For official decisions, use the AKTU website or your institution's examination cell.
+  </p>
+
+  <h2>Response times</h2>
+  <p>
+    General messages are usually answered within a few working days. Copyright complaints
+    are acknowledged within 24 hours and reviewed on the timeline described on the
+    takedown page.
+  </p>
+  <p class="text-sm text-stone-500">
+    TODO: replace the placeholder email addresses and add a monitored phone number or
+    postal address before launch if required by your jurisdiction.
+  </p>
+</LegalLayout>

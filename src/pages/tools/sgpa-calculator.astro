@@ -1,0 +1,437 @@
+---
+import PageHero from '../../components/PageHero.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Tools', href: '/tools/' },
+  { label: 'SGPA & Marks Calculator' },
+];
+---
+
+<BaseLayout
+  title="AKTU SGPA & Passing Marks Calculator (Official CBCS Formula)"
+  description="Calculate your AKTU semester SGPA, check 30% external theory cutoff eligibility, and convert SGPA to percentage with official university rules."
+  breadcrumbs={breadcrumbs}
+>
+  <PageHero
+    eyebrow="Interactive Academic Tool"
+    title="AKTU SGPA & Marks Calculator"
+    description="Calculate your semester grade point average (SGPA) and verify pass/carry-over status using official AKTU grading scales and the 30% external threshold rule."
+    breadcrumbs={breadcrumbs}
+  />
+
+  <div class="container-page py-10 md:py-14">
+    <div class="grid gap-10 lg:grid-cols-[1.4fr_0.9fr]">
+      <!-- Interactive Calculator Section -->
+      <section class="rounded-card-lg border border-stone-200 bg-white p-6 shadow-lift">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-stone-200 pb-4">
+          <div>
+            <h2 class="font-display text-2xl text-stone-950">Semester Subject Entry</h2>
+            <p class="mt-1 text-xs text-stone-600">
+              Enter credits and letter grades (or marks) for each enrolled subject.
+            </p>
+          </div>
+          <button
+            type="button"
+            id="add-row-btn"
+            class="inline-flex h-9 items-center rounded-full bg-stone-950 px-3.5 text-xs font-medium text-white transition hover:bg-stone-800"
+          >
+            + Add Subject
+          </button>
+        </div>
+
+        <form id="sgpa-form" class="mt-6 space-y-4">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs text-stone-700">
+              <thead class="border-b border-stone-200 bg-sand/40 text-stone-900 font-semibold uppercase tracking-wider text-[11px]">
+                <tr>
+                  <th class="p-3">Subject Name / Code</th>
+                  <th class="p-3">Credits</th>
+                  <th class="p-3">Grade Point</th>
+                  <th class="p-3">External Theory (Out of 70)</th>
+                  <th class="p-3 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody id="subjects-tbody" class="divide-y divide-stone-100">
+                <!-- Preset rows -->
+                <tr class="subject-row">
+                  <td class="p-2.5">
+                    <input
+                      type="text"
+                      value="Subject 1 (e.g. BCS501)"
+                      class="w-full rounded-input border border-stone-200 px-2.5 py-1.5 text-xs"
+                    />
+                  </td>
+                  <td class="p-2.5">
+                    <input
+                      type="number"
+                      min="1"
+                      max="10"
+                      value="4"
+                      class="credit-input w-16 rounded-input border border-stone-200 px-2 py-1.5 text-xs"
+                    />
+                  </td>
+                  <td class="p-2.5">
+                    <select class="grade-select rounded-input border border-stone-200 px-2 py-1.5 text-xs">
+                      <option value="10">O (10) - 90-100</option>
+                      <option value="9">A+ (9) - 80-89</option>
+                      <option value="8" selected>
+                        A (8) - 70-79
+                      </option>
+                      <option value="7">B+ (7) - 65-69</option>
+                      <option value="6">B (6) - 60-64</option>
+                      <option value="5">C (5) - 50-59</option>
+                      <option value="4">P (4) - 40-49 Pass</option>
+                      <option value="0">F (0) - Fail</option>
+                    </select>
+                  </td>
+                  <td class="p-2.5">
+                    <input
+                      type="number"
+                      min="0"
+                      max="70"
+                      value="45"
+                      class="external-input w-20 rounded-input border border-stone-200 px-2 py-1.5 text-xs"
+                    />
+                  </td>
+                  <td class="p-2.5 text-right">
+                    <button
+                      type="button"
+                      class="delete-row-btn text-stone-400 hover:text-rose-600 font-bold px-2 py-1"
+                    >
+                      ✕
+                    </button>
+                  </td>
+                </tr>
+                <tr class="subject-row">
+                  <td class="p-2.5">
+                    <input
+                      type="text"
+                      value="Subject 2 (e.g. BCS502)"
+                      class="w-full rounded-input border border-stone-200 px-2.5 py-1.5 text-xs"
+                    />
+                  </td>
+                  <td class="p-2.5">
+                    <input
+                      type="number"
+                      min="1"
+                      max="10"
+                      value="4"
+                      class="credit-input w-16 rounded-input border border-stone-200 px-2 py-1.5 text-xs"
+                    />
+                  </td>
+                  <td class="p-2.5">
+                    <select class="grade-select rounded-input border border-stone-200 px-2 py-1.5 text-xs">
+                      <option value="10">O (10) - 90-100</option>
+                      <option value="9" selected>
+                        A+ (9) - 80-89
+                      </option>
+                      <option value="8">A (8) - 70-79</option>
+                      <option value="7">B+ (7) - 65-69</option>
+                      <option value="6">B (6) - 60-64</option>
+                      <option value="5">C (5) - 50-59</option>
+                      <option value="4">P (4) - 40-49 Pass</option>
+                      <option value="0">F (0) - Fail</option>
+                    </select>
+                  </td>
+                  <td class="p-2.5">
+                    <input
+                      type="number"
+                      min="0"
+                      max="70"
+                      value="52"
+                      class="external-input w-20 rounded-input border border-stone-200 px-2 py-1.5 text-xs"
+                    />
+                  </td>
+                  <td class="p-2.5 text-right">
+                    <button
+                      type="button"
+                      class="delete-row-btn text-stone-400 hover:text-rose-600 font-bold px-2 py-1"
+                    >
+                      ✕
+                    </button>
+                  </td>
+                </tr>
+                <tr class="subject-row">
+                  <td class="p-2.5">
+                    <input
+                      type="text"
+                      value="Subject 3"
+                      class="w-full rounded-input border border-stone-200 px-2.5 py-1.5 text-xs"
+                    />
+                  </td>
+                  <td class="p-2.5">
+                    <input
+                      type="number"
+                      min="1"
+                      max="10"
+                      value="3"
+                      class="credit-input w-16 rounded-input border border-stone-200 px-2 py-1.5 text-xs"
+                    />
+                  </td>
+                  <td class="p-2.5">
+                    <select class="grade-select rounded-input border border-stone-200 px-2 py-1.5 text-xs">
+                      <option value="10">O (10) - 90-100</option>
+                      <option value="9">A+ (9) - 80-89</option>
+                      <option value="8">A (8) - 70-79</option>
+                      <option value="7" selected>
+                        B+ (7) - 65-69
+                      </option>
+                      <option value="6">B (6) - 60-64</option>
+                      <option value="5">C (5) - 50-59</option>
+                      <option value="4">P (4) - 40-49 Pass</option>
+                      <option value="0">F (0) - Fail</option>
+                    </select>
+                  </td>
+                  <td class="p-2.5">
+                    <input
+                      type="number"
+                      min="0"
+                      max="70"
+                      value="38"
+                      class="external-input w-20 rounded-input border border-stone-200 px-2 py-1.5 text-xs"
+                    />
+                  </td>
+                  <td class="p-2.5 text-right">
+                    <button
+                      type="button"
+                      class="delete-row-btn text-stone-400 hover:text-rose-600 font-bold px-2 py-1"
+                    >
+                      ✕
+                    </button>
+                  </td>
+                </tr>
+                <tr class="subject-row">
+                  <td class="p-2.5">
+                    <input
+                      type="text"
+                      value="Practical Lab 1"
+                      class="w-full rounded-input border border-stone-200 px-2.5 py-1.5 text-xs"
+                    />
+                  </td>
+                  <td class="p-2.5">
+                    <input
+                      type="number"
+                      min="1"
+                      max="10"
+                      value="1"
+                      class="credit-input w-16 rounded-input border border-stone-200 px-2 py-1.5 text-xs"
+                    />
+                  </td>
+                  <td class="p-2.5">
+                    <select class="grade-select rounded-input border border-stone-200 px-2 py-1.5 text-xs">
+                      <option value="10" selected>
+                        O (10) - 90-100
+                      </option>
+                      <option value="9">A+ (9) - 80-89</option>
+                      <option value="8">A (8) - 70-79</option>
+                      <option value="7">B+ (7) - 65-69</option>
+                      <option value="6">B (6) - 60-64</option>
+                      <option value="5">C (5) - 50-59</option>
+                      <option value="4">P (4) - 40-49 Pass</option>
+                      <option value="0">F (0) - Fail</option>
+                    </select>
+                  </td>
+                  <td class="p-2.5">
+                    <input
+                      type="number"
+                      min="0"
+                      max="70"
+                      value="48"
+                      class="external-input w-20 rounded-input border border-stone-200 px-2 py-1.5 text-xs"
+                    />
+                  </td>
+                  <td class="p-2.5 text-right">
+                    <button
+                      type="button"
+                      class="delete-row-btn text-stone-400 hover:text-rose-600 font-bold px-2 py-1"
+                    >
+                      ✕
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="mt-6 flex justify-end gap-3 pt-3 border-t border-stone-200">
+            <button
+              type="button"
+              id="recalculate-btn"
+              class="h-10 rounded-full bg-stone-950 px-6 text-sm font-semibold text-white shadow-hairline transition hover:bg-stone-800"
+            >
+              Compute Results
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Live Computation Output -->
+      <aside class="space-y-6">
+        <div class="rounded-card-lg border border-stone-200 bg-cream p-6 shadow-lift">
+          <p class="font-condensed text-xs font-bold uppercase tracking-[0.12em] text-stone-500">
+            Semester Summary
+          </p>
+
+          <div class="mt-4 space-y-4">
+            <div class="rounded-card bg-white p-4 border border-stone-200">
+              <span class="text-xs text-stone-500">Calculated SGPA</span>
+              <p
+                id="out-sgpa"
+                class="font-display text-4xl text-stone-950 font-normal mt-1"
+              >
+                8.25
+              </p>
+            </div>
+
+            <div class="rounded-card bg-white p-4 border border-stone-200">
+              <span class="text-xs text-stone-500">
+                Equivalent Percentage (Official Formula)
+              </span>
+              <p
+                id="out-pct"
+                class="font-display text-2xl text-stone-950 font-normal mt-1"
+              >
+                75.0%
+              </p>
+              <p class="text-[11px] text-stone-500 mt-1 font-mono">(SGPA - 0.75) × 10</p>
+            </div>
+
+            <div class="rounded-card bg-white p-4 border border-stone-200">
+              <span class="text-xs text-stone-500">
+                Registered Credits & Cutoff Status
+              </span>
+              <p id="out-credits" class="font-display text-lg text-stone-950 mt-1">
+                12 Credits
+              </p>
+              <div
+                id="out-status"
+                class="mt-2 text-xs font-medium text-emerald-800 bg-emerald-50 rounded-full px-3 py-1 inline-block"
+              >
+                ✓ All subjects clear 30% external theory threshold (≥21/70)
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-card border border-stone-200 bg-white p-5 text-xs leading-relaxed text-stone-600">
+          <h3 class="font-semibold text-stone-900 text-sm mb-2">
+            AKTU Evaluation Rules:
+          </h3>
+          <ul class="space-y-1.5 list-disc list-inside">
+            <li>
+              <strong>Theory Cutoff:</strong> Minimum 30% marks in external theory (≥ 21
+              out of 70).
+            </li>
+            <li>
+              <strong>Aggregate Threshold:</strong> Minimum 40% combined marks (Sessional
+              + External).
+            </li>
+            <li>
+              <strong>Degree Division:</strong> First Div with Distinction (CGPA ≥ 7.50
+              without grace), First Div (CGPA ≥ 6.50).
+            </li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script is:inline>
+    function calculate() {
+      const rows = document.querySelectorAll('.subject-row');
+      let totalCreditPoints = 0;
+      let totalCredits = 0;
+      let hasTheoryFail = false;
+      let failedSubjects = [];
+
+      rows.forEach((row, i) => {
+        const credit = parseFloat(row.querySelector('.credit-input').value) || 0;
+        const gradePoint = parseFloat(row.querySelector('.grade-select').value) || 0;
+        const external = parseFloat(row.querySelector('.external-input').value) || 0;
+
+        totalCredits += credit;
+        totalCreditPoints += credit * gradePoint;
+
+        // AKTU 30% external threshold for 70-mark papers
+        if (external < 21 && gradePoint < 4) {
+          hasTheoryFail = true;
+          failedSubjects.push(`Subject ${i + 1}`);
+        }
+      });
+
+      const sgpa = totalCredits > 0 ? totalCreditPoints / totalCredits : 0;
+      const pct = sgpa > 0 ? (sgpa - 0.75) * 10 : 0;
+
+      document.getElementById('out-sgpa').textContent = sgpa.toFixed(2);
+      document.getElementById('out-pct').textContent = Math.max(0, pct).toFixed(1) + '%';
+      document.getElementById('out-credits').textContent = `${totalCredits} Credits`;
+
+      const statusEl = document.getElementById('out-status');
+      if (hasTheoryFail) {
+        statusEl.className =
+          'mt-2 text-xs font-medium text-rose-800 bg-rose-50 rounded-full px-3 py-1 inline-block';
+        statusEl.textContent = `⚠ Risk of Carry-Over (COP): Theory marks below 21/70 in ${failedSubjects.join(', ')}`;
+      } else {
+        statusEl.className =
+          'mt-2 text-xs font-medium text-emerald-800 bg-emerald-50 rounded-full px-3 py-1 inline-block';
+        statusEl.textContent =
+          '✓ All subjects clear 30% external theory threshold (≥21/70)';
+      }
+    }
+
+    document.getElementById('recalculate-btn')?.addEventListener('click', calculate);
+    document.getElementById('sgpa-form')?.addEventListener('input', calculate);
+
+    document.getElementById('add-row-btn')?.addEventListener('click', () => {
+      const tbody = document.getElementById('subjects-tbody');
+      const tr = document.createElement('tr');
+      tr.className = 'subject-row';
+      tr.innerHTML = `
+        <td class="p-2.5">
+          <input type="text" value="New Subject" class="w-full rounded-input border border-stone-200 px-2.5 py-1.5 text-xs" />
+        </td>
+        <td class="p-2.5">
+          <input type="number" min="1" max="10" value="3" class="credit-input w-16 rounded-input border border-stone-200 px-2 py-1.5 text-xs" />
+        </td>
+        <td class="p-2.5">
+          <select class="grade-select rounded-input border border-stone-200 px-2 py-1.5 text-xs">
+            <option value="10">O (10) - 90-100</option>
+            <option value="9">A+ (9) - 80-89</option>
+            <option value="8" selected>A (8) - 70-79</option>
+            <option value="7">B+ (7) - 65-69</option>
+            <option value="6">B (6) - 60-64</option>
+            <option value="5">C (5) - 50-59</option>
+            <option value="4">P (4) - 40-49 Pass</option>
+            <option value="0">F (0) - Fail</option>
+          </select>
+        </td>
+        <td class="p-2.5">
+          <input type="number" min="0" max="70" value="40" class="external-input w-20 rounded-input border border-stone-200 px-2 py-1.5 text-xs" />
+        </td>
+        <td class="p-2.5 text-right">
+          <button type="button" class="delete-row-btn text-stone-400 hover:text-rose-600 font-bold px-2 py-1">✕</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+      tr.querySelector('.delete-row-btn')?.addEventListener('click', () => {
+        tr.remove();
+        calculate();
+      });
+      calculate();
+    });
+
+    document.querySelectorAll('.delete-row-btn').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        const row = e.target.closest('tr');
+        if (document.querySelectorAll('.subject-row').length > 1) {
+          row.remove();
+          calculate();
+        }
+      });
+    });
+
+    calculate();
+  </script>
+</BaseLayout>

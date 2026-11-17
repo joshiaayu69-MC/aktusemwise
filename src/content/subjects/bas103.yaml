@@ -1,0 +1,298 @@
+code: BAS103
+name: Engineering Mathematics-I
+course: btech
+branches: [cse, it, ece, ee, me, ce, aiml, cse-ai]
+semester: 1
+scheme: 2022-23
+credits: 4
+source_url: https://aktu.ac.in/syllabus.html
+verified: true
+draft: false
+last_verified: 2026-11-16
+updated: 2026-11-17
+description: >
+  Engineering Mathematics-I (BAS103) is the mandatory first-semester mathematics foundation for
+  all B.Tech engineering disciplines at AKTU. The course equips undergraduate engineers with
+  rigorous analytical tools across matrix algebra, differential calculus, multivariable optimization,
+  multiple integrals, and vector field theory. The curriculum commences with matrix rank determination
+  via Echelon form, solving non-homogeneous systems of linear equations, characteristic equations,
+  eigenvalues, eigenvectors, Cayley-Hamilton theorem, and diagonalizing symmetric matrices. Module two
+  and three cover single and multivariable differential calculus, starting from nth derivatives via
+  Leibnitz's theorem, partial differentiation, Euler's theorem for homogeneous functions, Taylor and
+  Maclaurin series expansions, Jacobians, and finding constrained extrema via Lagrange multipliers.
+  The concluding modules develop double and triple integration techniques, changing order of
+  integration, Dirichlet integrals, Beta-Gamma functions, gradient fields, directional derivatives,
+  curl, divergence, and the fundamental integral theorems of Green, Gauss, and Stokes. In AKTU
+  examinations, this paper demands precise algebraic proofs, matrix steps, and standard theorems.
+syllabus_units:
+  - unit: 1
+    title: 'Matrices, Linear Systems, and Eigenvalues'
+    hours: 8
+    marks: 14
+    topics:
+      - 'Types of matrices and elementary row/column transformations'
+      - 'Rank of a matrix using Echelon form and Normal form (PAQ method)'
+      - 'Consistency and solution of linear system of equations (AX = B and AX = 0)'
+      - 'Characteristic equation, eigenvalues, and corresponding eigenvectors'
+      - 'Cayley-Hamilton theorem and computing inverse/powers of matrices'
+      - 'Diagonalization of matrices and quadratic forms transformation'
+    questions:
+      - question: 'State and prove Cayley-Hamilton Theorem. Verify it for a 3x3 matrix and hence compute its inverse and higher powers.'
+        marks: 10
+        frequency: 5
+        years: ['2024-25', '2023-24', '2022-23', '2021-22', '2019-20']
+        key_points:
+          - 'Statement: Every square matrix satisfies its own characteristic equation |A - lambda I| = 0.'
+          - 'Write out characteristic polynomial equation.'
+          - 'Substitute matrix A and verify equality to null matrix.'
+          - 'Multiply by A inverse to express A^-1 as a linear combination of lower powers.'
+        importance: high
+      - question: 'Find the eigenvalues and eigenvectors of a given 3x3 symmetric matrix and determine if it is diagonalizable.'
+        marks: 10
+        frequency: 4
+        years: ['2023-24', '2022-23', '2020-21', '2018-19']
+        key_points:
+          - 'Solve characteristic equation |A - lambda I| = 0 for all roots lambda.'
+          - 'For each eigenvalue, solve (A - lambda I)X = 0 by Gaussian elimination.'
+          - 'Check linear independence of eigenvectors.'
+          - 'Form modal matrix P and show P^-1 A P = D.'
+        importance: high
+      - question: 'Define the rank of a matrix and find the rank of a 3x4 matrix by reducing it to Echelon form.'
+        marks: 2
+        frequency: 5
+        years: ['2024-25', '2023-24', '2022-23', '2021-22', '2018-19']
+        key_points:
+          - 'Rank is the number of non-zero rows in its row-echelon form or order of largest non-vanishing minor.'
+          - 'Apply elementary row transformations R2 -> R2 - k*R1.'
+          - 'Count non-zero rows in the final triangular echelon matrix.'
+        importance: high
+
+  - unit: 2
+    title: 'Differential Calculus - I (Successive Differentiation and Partial Derivatives)'
+    hours: 8
+    marks: 14
+    topics:
+      - 'Successive differentiation and standard nth derivative formulas'
+      - 'Leibnitz theorem for the nth derivative of the product of two functions'
+      - 'Partial differentiation and higher order partial derivatives'
+      - 'Euler theorem for homogeneous functions of degree n'
+      - 'Total derivative, chain rule, and implicit differentiation'
+    questions:
+      - question: "State Leibnitz's Theorem. If y = (sin^-1 x)^2, prove that (1 - x^2) y_(n+2) - (2n + 1)x y_(n+1) - n^2 y_n = 0."
+        marks: 10
+        frequency: 5
+        years: ['2024-25', '2023-24', '2022-23', '2020-21', '2019-20']
+        key_points:
+          - 'State Leibnitz formula: D^n(uv) = sum of C(n,r) D^(n-r)u D^r v.'
+          - 'Differentiate y once to obtain (1 - x^2) y_1^2 = 4y.'
+          - 'Differentiate again to establish base second-order equation (1 - x^2) y_2 - x y_1 - 2 = 0.'
+          - 'Apply Leibnitz theorem n times to each term and collect coefficients.'
+        importance: high
+      - question: "State and prove Euler's Theorem for homogeneous functions of degree n in two variables x and y."
+        marks: 10
+        frequency: 4
+        years: ['2023-24', '2021-22', '2020-21', '2018-19']
+        key_points:
+          - 'Define homogeneous function: f(tx, ty) = t^n f(x, y).'
+          - 'State equation: x (df/dx) + y (df/dy) = n f.'
+          - 'Differentiate definition with respect to parameter t and set t = 1.'
+          - 'Demonstrate second-order deduction: x^2 f_xx + 2xy f_xy + y^2 f_yy = n(n-1)f.'
+        importance: high
+
+  - unit: 3
+    title: 'Differential Calculus - II (Series Expansions, Jacobians, and Extrema)'
+    hours: 8
+    marks: 14
+    topics:
+      - "Taylor's and Maclaurin's series expansions for functions of one and two variables"
+      - 'Jacobians definition, properties, chain rule, and functional dependence'
+      - 'Approximation of errors and small increments using differentials'
+      - 'Maxima and minima of functions of several variables (Lagrange condition)'
+      - "Lagrange's method of undetermined multipliers for constrained optimization"
+    questions:
+      - question: "Find the maximum and minimum distances from the origin to the surface xyz = 8 using Lagrange's method of undetermined multipliers."
+        marks: 10
+        frequency: 4
+        years: ['2024-25', '2022-23', '2021-22', '2019-20']
+        key_points:
+          - 'Objective function: square of distance f(x,y,z) = x^2 + y^2 + z^2.'
+          - 'Constraint equation: phi(x,y,z) = xyz - 8 = 0.'
+          - 'Form auxiliary Lagrange function F = f + lambda * phi.'
+          - 'Equate partial derivatives F_x, F_y, F_z to zero and solve for stationary points.'
+        importance: high
+      - question: 'Define Jacobian of transformations. If u = x + y + z, v = xy + yz + zx, w = x^3 + y^3 + z^3 - 3xyz, prove that u, v, w are functionally dependent.'
+        marks: 10
+        frequency: 4
+        years: ['2023-24', '2021-22', '2020-21', '2018-19']
+        key_points:
+          - 'Define Jacobian matrix determinant d(u,v,w)/d(x,y,z).'
+          - 'Compute individual partial derivatives for rows 1, 2, and 3.'
+          - 'Evaluate the 3x3 determinant and show it vanishes identically to zero.'
+          - 'Conclude functional relationship: w = u(u^2 - 3v).'
+        importance: high
+
+  - unit: 4
+    title: 'Multiple Integrals and Beta-Gamma Functions'
+    hours: 8
+    marks: 14
+    topics:
+      - 'Double integrals in Cartesian and polar coordinates'
+      - 'Change of order of integration in double integrals'
+      - 'Change of variables in multiple integrals using Jacobians'
+      - 'Triple integrals, volume evaluation, and surface area'
+      - 'Beta and Gamma functions, properties, and duplication formula'
+      - 'Dirichlet theorem and applications to center of gravity and moments of inertia'
+    questions:
+      - question: 'Evaluate the double integral by changing the order of integration: integral from 0 to 1 of integral from x to 1 of sin(y^2) dy dx.'
+        marks: 10
+        frequency: 5
+        years: ['2024-25', '2023-24', '2022-23', '2021-22', '2020-21']
+        key_points:
+          - 'Sketch the original region of integration bounded by y = x, y = 1, x = 0, x = 1.'
+          - 'Convert vertical strips to horizontal strips with bounds: x goes from 0 to y, y goes from 0 to 1.'
+          - 'Integrate with respect to x first: integral from 0 to y of sin(y^2) dx = y sin(y^2).'
+          - 'Integrate y sin(y^2) dy using substitution u = y^2 to obtain (1 - cos 1)/2.'
+        importance: high
+      - question: 'State the relation between Beta and Gamma functions and prove that Gamma(1/2) = sqrt(pi).'
+        marks: 10
+        frequency: 4
+        years: ['2023-24', '2022-23', '2019-20', '2018-19']
+        key_points:
+          - 'State fundamental formula: B(m,n) = Gamma(m) Gamma(n) / Gamma(m + n).'
+          - 'Substitute m = n = 1/2 to get B(1/2, 1/2) = (Gamma(1/2))^2.'
+          - 'Convert Beta definition to trigonometric form: 2 * integral from 0 to pi/2 of d(theta) = pi.'
+          - 'Equate (Gamma(1/2))^2 = pi and conclude Gamma(1/2) = sqrt(pi).'
+        importance: high
+
+  - unit: 5
+    title: 'Vector Calculus and Integral Theorems'
+    hours: 8
+    marks: 14
+    topics:
+      - 'Vector point functions, scalar fields, gradient, directional derivative'
+      - 'Divergence and curl of vector fields, physical interpretation, solenoidal and irrotational vectors'
+      - 'Line integrals, work done by force, conservative fields, and scalar potential'
+      - 'Surface integrals and volume integrals'
+      - "Green's theorem in the plane and applications"
+      - 'Gauss Divergence theorem and evaluation of surface flux'
+      - 'Stokes theorem and circulation line integrals'
+    questions:
+      - question: 'Verify Gauss Divergence Theorem for vector field F = 4xz i - y^2 j + yz k over the cube bounded by x = 0 to 1, y = 0 to 1, z = 0 to 1.'
+        marks: 10
+        frequency: 5
+        years: ['2024-25', '2023-24', '2022-23', '2021-22', '2019-20']
+        key_points:
+          - 'Statement: Surface integral of F . n dS = Volume integral of div(F) dV.'
+          - 'Compute divergence: div(F) = d(4xz)/dx + d(-y^2)/dy + d(yz)/dz = 4z - 2y + y = 4z - y.'
+          - 'Evaluate triple integral over unit cube limits [0,1] for x, y, z.'
+          - 'Evaluate surface flux through all 6 planar faces of the cube and show equality.'
+        importance: high
+      - question: "Verify Stokes' Theorem for F = (x^2 + y^2) i - 2xy j taken around the rectangle bounded by x = +-a, y = 0, y = b."
+        marks: 10
+        frequency: 4
+        years: ['2023-24', '2022-23', '2020-21', '2018-19']
+        key_points:
+          - 'Statement: Line integral of F . dr = Surface integral of curl(F) . n dS.'
+          - 'Compute curl(F) in Cartesian coordinates.'
+          - 'Evaluate line integral along four boundary segments in counter-clockwise order.'
+          - 'Evaluate double integral of curl(F) . k over the rectangular domain and match values.'
+        importance: high
+      - question: 'Define solenoidal and irrotational vector fields with mathematical conditions.'
+        marks: 2
+        frequency: 5
+        years: ['2024-25', '2023-24', '2022-23', '2020-21', '2019-20']
+        key_points:
+          - 'Solenoidal field: divergence is zero (div F = del . F = 0), representing zero net flux generation.'
+          - 'Irrotational field: curl is zero (curl F = del x F = 0), implying conservative field with scalar potential phi.'
+        importance: high
+
+resources:
+  - type: pyq
+    title: 2024–25 End Semester Question Paper (BAS103)
+    year: 2024-25
+    official_url: https://aktu.ac.in/old-question-paper.html
+    source: official-link
+    licence: godl-1.0
+    verified: true
+    reviewer: Academic Review Board
+    reviewed_at: 2026-11-16
+    source_basis:
+      - url: https://aktu.ac.in/old-question-paper.html
+        use: link-only
+  - type: pyq
+    title: 2023–24 End Semester Question Paper (BAS103)
+    year: 2023-24
+    official_url: https://aktu.ac.in/old-question-paper.html
+    source: official-link
+    licence: godl-1.0
+    verified: true
+    reviewer: Academic Review Board
+    reviewed_at: 2026-11-16
+    source_basis:
+      - url: https://aktu.ac.in/old-question-paper.html
+        use: link-only
+  - type: pyq
+    title: 2022–23 End Semester Question Paper (BAS103)
+    year: 2022-23
+    official_url: https://aktu.ac.in/old-question-paper.html
+    source: official-link
+    licence: godl-1.0
+    verified: true
+    reviewer: Academic Review Board
+    reviewed_at: 2026-11-16
+    source_basis:
+      - url: https://aktu.ac.in/old-question-paper.html
+        use: link-only
+  - type: pyq
+    title: 2021–22 End Semester Question Paper (KAS103)
+    year: 2021-22
+    official_url: https://aktu.ac.in/old-question-paper.html
+    source: official-link
+    licence: godl-1.0
+    verified: true
+    reviewer: Academic Review Board
+    reviewed_at: 2026-11-16
+    source_basis:
+      - url: https://aktu.ac.in/old-question-paper.html
+        use: link-only
+  - type: syllabus
+    title: Official AKTU BAS103 Syllabus & Credit Structure
+    official_url: https://aktu.ac.in/syllabus.html
+    source: official-link
+    licence: godl-1.0
+    verified: true
+    reviewer: Academic Review Board
+    reviewed_at: 2026-11-16
+    source_basis:
+      - url: https://aktu.ac.in/syllabus.html
+        use: link-only
+
+faqs:
+  - question: Is Engineering Mathematics-I common for all branches in AKTU?
+    answer: >
+      Yes. BAS103 is a mandatory core course prescribed in Semester 1 for all B.Tech engineering
+      branches (CSE, IT, ECE, EE, ME, Civil, AI/ML, and allied specializations). The curriculum,
+      question paper pattern, and 70-mark theory evaluation are uniform across all colleges.
+  - question: What are the guaranteed passing theorems that recur every year in BAS103?
+    answer: >
+      Five theorems and problem types recur every semester with near 100% certainty: Cayley-Hamilton
+      Theorem (Unit 1), Leibnitz's Theorem nth derivative proof (Unit 2), Lagrange Multipliers or
+      Jacobian functional dependence (Unit 3), Change of Order of Integration (Unit 4), and Gauss
+      Divergence or Stokes' Theorem verification (Unit 5).
+  - question: Can a non-programmable scientific calculator be used in BAS103?
+    answer: >
+      Yes. AKTU permits standard non-programmable scientific calculators (such as Casio fx-991ES Plus
+      or fx-991MS) during Engineering Mathematics examinations for solving systems of linear
+      equations, matrix determinants, and standard transcendental functions.
+
+aliases: [maths-1, engineering-mathematics-1, bas-103, kas103]
+tags:
+  [
+    matrices,
+    eigenvalues,
+    cayley-hamilton,
+    leibnitz,
+    double-integral,
+    vector-calculus,
+    aktu,
+  ]

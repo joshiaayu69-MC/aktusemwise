@@ -1,0 +1,76 @@
+---
+import PageHero from '../components/PageHero.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Search' }];
+const isProduction = import.meta.env.PROD;
+---
+
+<BaseLayout
+  title="Search study resources"
+  description="Search AKTU subjects, notes, papers, syllabus pages, and updates."
+  breadcrumbs={breadcrumbs}
+  noindex
+>
+  {isProduction && <link slot="head" rel="stylesheet" href="/pagefind/pagefind-ui.css" />}
+
+  <PageHero
+    eyebrow="Search"
+    title="Find a subject or update"
+    description="Search across subject hubs, notes, papers, syllabus pages, and updates."
+    breadcrumbs={breadcrumbs}
+  />
+
+  <div class="container-page py-10 md:py-14" data-pagefind-ignore>
+    <div class="mx-auto max-w-3xl">
+      {isProduction ? (
+        <>
+          <div id="search" class="min-h-24" />
+          <script is:inline src="/pagefind/pagefind-ui.js"></script>
+          <script is:inline>
+            window.addEventListener('DOMContentLoaded', function () {
+              if (typeof PagefindUI === 'undefined') return;
+
+              new PagefindUI({
+                element: '#search',
+                showSubResults: true,
+                showImages: false,
+                resetStyles: false,
+              });
+
+              var query = new URLSearchParams(window.location.search).get('q');
+              if (!query) return;
+
+              var input = document.querySelector('#search input');
+              if (!input) return;
+              input.value = query;
+              input.dispatchEvent(new Event('input', { bubbles: true }));
+            });
+          </script>
+        </>
+      ) : (
+        <div class="rounded-card border border-dashed border-stone-300 bg-cream/60 p-6 text-sm leading-relaxed text-stone-600">
+          <p class="font-semibold text-stone-900">
+            Search is generated in the production build.
+          </p>
+          <p class="mt-2">
+            The local dev server does not have a Pagefind index. Run{' '}
+            <code class="rounded bg-stone-200 px-1.5 py-0.5 font-mono text-xs">
+              npm run build
+            </code>{' '}
+            and then{' '}
+            <code class="rounded bg-stone-200 px-1.5 py-0.5 font-mono text-xs">
+              npm run preview
+            </code>{' '}
+            to test search.
+          </p>
+        </div>
+      )}
+
+      <p class="mt-6 text-xs leading-relaxed text-stone-500">
+        Search is powered by a static Pagefind index. No search query is sent to a
+        third-party service.
+      </p>
+    </div>
+  </div>
+</BaseLayout>

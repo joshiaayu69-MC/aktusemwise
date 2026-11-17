@@ -1,0 +1,148 @@
+---
+import { LEGAL_LINKS, NON_AFFILIATION, SITE } from '../lib/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-20 border-t border-stone-200 bg-cream" data-pagefind-ignore>
+  <div class="container-page py-14">
+    <div class="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+      <div>
+        <a href="/" class="inline-flex items-center gap-2 text-stone-950">
+          <span
+            class="grid size-8 place-items-center rounded-full bg-stone-950 text-stone-50"
+            aria-hidden="true"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              class="size-4"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v18H6.5A2.5 2.5 0 0 1 4 18.5z"></path>
+              <path d="M4 18.5A2.5 2.5 0 0 1 6.5 16H20"></path>
+            </svg>
+          </span>
+          <span class="font-display text-lg tracking-tight">{SITE.name}</span>
+        </a>
+        <p class="mt-4 max-w-sm text-sm leading-relaxed text-stone-600">
+          Free, original, exam-focused study resources for AKTU students. No login, no
+          paywall, no fake download buttons.
+        </p>
+        <p class="mt-4 font-condensed text-[11px] font-bold uppercase tracking-[0.12em] text-stone-500">
+          Built for students, not for clicks
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-condensed text-xs font-bold uppercase tracking-[0.12em] text-stone-500">
+          Browse
+        </h2>
+        <ul class="mt-4 space-y-2.5 text-sm">
+          <li>
+            <a class="text-stone-700 hover:text-stone-950" href="/btech/">
+              B.Tech Hub
+            </a>
+          </li>
+          <li>
+            <a class="text-stone-700 hover:text-stone-950" href="/pyq/">
+              Previous Year Papers (PYQ)
+            </a>
+          </li>
+          <li>
+            <a class="text-stone-700 hover:text-stone-950" href="/syllabus/">
+              Syllabus & Schemes
+            </a>
+          </li>
+          <li>
+            <a class="text-stone-700 hover:text-stone-950" href="/updates/">
+              AKTU Updates & Circulars
+            </a>
+          </li>
+          <li>
+            <a class="text-stone-700 hover:text-stone-950" href="/tools/">
+              SGPA & CGPA Calculators
+            </a>
+          </li>
+          <li>
+            <a class="text-stone-700 hover:text-stone-950" href="/courses/">
+              All Courses
+            </a>
+          </li>
+          <li>
+            <a class="text-stone-700 hover:text-stone-950" href="/search/">
+              Instant Search
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="font-condensed text-xs font-bold uppercase tracking-[0.12em] text-stone-500">
+          Site
+        </h2>
+        <ul class="mt-4 space-y-2.5 text-sm">
+          {LEGAL_LINKS.map((item) => (
+            <li>
+              <a class="text-stone-700 hover:text-stone-950" href={item.href}>
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="font-condensed text-xs font-bold uppercase tracking-[0.12em] text-stone-500">
+          Official links
+        </h2>
+        <ul class="mt-4 space-y-2.5 text-sm">
+          <li>
+            <a
+              class="text-stone-700 hover:text-stone-950"
+              href="https://aktu.ac.in/"
+              rel="noopener"
+              target="_blank"
+            >
+              AKTU website
+            </a>
+          </li>
+          <li>
+            <a
+              class="text-stone-700 hover:text-stone-950"
+              href="https://aktu.ac.in/syllabus.html"
+              rel="noopener"
+              target="_blank"
+            >
+              Official syllabus
+            </a>
+          </li>
+          <li>
+            <a
+              class="text-stone-700 hover:text-stone-950"
+              href="https://aktu.ac.in/old-question-paper.html"
+              rel="noopener"
+              target="_blank"
+            >
+              Official question papers
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-12 border-t border-stone-200 pt-6">
+      <p class="max-w-4xl text-xs leading-relaxed text-stone-500">{NON_AFFILIATION}</p>
+      <div class="mt-4 flex flex-col gap-2 text-xs text-stone-500 sm:flex-row sm:items-center sm:justify-between">
+        <p>
+          &copy; {year} {SITE.name}. Original content is shared with attribution and a
+          licence record.
+        </p>
+        <p>Independent student project. Not an official AKTU website.</p>
+      </div>
+    </div>
+  </div>
+</footer>

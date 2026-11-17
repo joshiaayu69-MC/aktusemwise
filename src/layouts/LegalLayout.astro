@@ -1,0 +1,39 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import type { BreadcrumbItem } from '../lib/schema';
+import { SITE } from '../lib/site';
+
+type Props = {
+  title: string;
+  description: string;
+  breadcrumbs?: BreadcrumbItem[];
+  updated?: string;
+};
+
+const { title, description, breadcrumbs, updated } = Astro.props;
+---
+
+<BaseLayout
+  title={`${title} | ${SITE.name}`}
+  description={description}
+  breadcrumbs={breadcrumbs}
+>
+  <PageHero
+    title={title}
+    description={description}
+    breadcrumbs={breadcrumbs}
+    eyebrow="Site policy"
+  />
+
+  <div class="container-page py-10 md:py-14">
+    <article class="prose-aktu max-w-3xl">
+      <slot />
+      {updated && (
+        <p class="mt-10 border-t border-stone-200 pt-4 text-sm text-stone-500">
+          Last updated: {updated}
+        </p>
+      )}
+    </article>
+  </div>
+</BaseLayout>

@@ -1,0 +1,12 @@
+{
+  "resource_id": "bcs000-notes",
+  "checked_at": "2026-11-16",
+  "similarity_score": 0.08,
+  "max_ngram_overlap": 0.04,
+  "web_matches": [],
+  "fact_check": "pass",
+  "flags": [],
+  "verdict": "approve",
+  "reviewer": "TODO named human reviewer",
+  "notes": "Checked against the fact sheet and official syllabus. No copied passages."
+}

@@ -1,0 +1,78 @@
+---
+import LegalLayout from '../layouts/LegalLayout.astro';
+import { SITE } from '../lib/site';
+
+const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Privacy' }];
+---
+
+<LegalLayout
+  title="Privacy policy"
+  description="What this site collects, what it does not collect, and how to contact us about privacy."
+  breadcrumbs={breadcrumbs}
+  updated="16 November 2026"
+>
+  <p>
+    This policy explains the limited data this site handles. It is written for students
+    and is intentionally short because the site is designed to collect as little as
+    possible.
+  </p>
+
+  <h2>What we do not collect</h2>
+  <ul>
+    <li>No accounts, logins, or passwords.</li>
+    <li>No roll numbers, registration numbers, marks, or result credentials.</li>
+    <li>No payment or card data on this site.</li>
+    <li>No advertising cookies or third-party tracking pixels at launch.</li>
+  </ul>
+
+  <h2>Analytics</h2>
+  <p>
+    At launch we use Cloudflare Web Analytics, which is cookieless and does not build a
+    cross-site profile of you. It provides aggregate page views and performance data. If
+    we add a different analytics tool later, this policy will be updated before it goes
+    live.
+  </p>
+
+  <h2>Server logs</h2>
+  <p>
+    Our hosting provider may process standard technical logs such as IP address, user
+    agent, requested URL, and timestamp for security, abuse prevention, and reliability.
+    We do not use these logs to identify individual students.
+  </p>
+
+  <h2>Search</h2>
+  <p>
+    Site search uses a static index generated at build time. Your query is processed in
+    your browser and is not sent to a third-party search API.
+  </p>
+
+  <h2>Email</h2>
+  <p>
+    If you email us, we receive your email address and whatever you include in the
+    message. We use it only to respond, investigate a correction, or handle a complaint.
+    Do not send sensitive personal data.
+  </p>
+
+  <h2>Advertising</h2>
+  <p>
+    If advertising is enabled in the future, the ad provider may use cookies or similar
+    technologies and this policy will be updated to describe them. We will not place ads
+    that look like download buttons or hide the real download link.
+  </p>
+
+  <h2>Your choices</h2>
+  <p>
+    You can browse the site without providing any personal data. If you have sent us an
+    email and want it deleted, contact us and we will remove it unless we need to keep it
+    for a legal or complaint record.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    Privacy questions: <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+  </p>
+  <p class="text-sm text-stone-500">
+    TODO: replace the placeholder email address before launch and update this policy if
+    ads, forms, or a different analytics provider are added.
+  </p>
+</LegalLayout>

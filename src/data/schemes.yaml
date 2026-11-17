@@ -1,0 +1,13 @@
+# Starter scheme list.
+# TODO: verify scheme slugs, labels, and active status with official AKTU notifications.
+# Never invent a scheme or map a subject to a scheme without a source.
+
+- slug: 2022-23
+  label: 2022-23 Scheme
+  active: true
+  order: 1
+
+- slug: 2026-27
+  label: 2026-27 Scheme (NEP/AICTE)
+  active: true
+  order: 2

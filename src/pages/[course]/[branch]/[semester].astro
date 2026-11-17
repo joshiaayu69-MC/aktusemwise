@@ -1,0 +1,112 @@
+---
+import EmptyState from '../../../components/EmptyState.astro';
+import PageHero from '../../../components/PageHero.astro';
+import SubjectCard from '../../../components/SubjectCard.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getSubjectsFor } from '../../../lib/content';
+import { courses, getBranchesForCourse, getSemesterNumbers } from '../../../lib/taxonomy';
+import { branchUrl, courseUrl, semesterUrl } from '../../../lib/urls';
+
+export async function getStaticPaths() {
+  const paths = [];
+
+  for (const course of courses) {
+    for (const branch of getBranchesForCourse(course.slug)) {
+      for (const semester of getSemesterNumbers(course.slug)) {
+        paths.push({
+          params: {
+            course: course.slug,
+            branch: branch.slug,
+            semester: `sem-${semester}`,
+          },
+          props: { course, branch, semester },
+        });
+      }
+    }
+  }
+
+  return paths;
+}
+
+const { course, branch, semester } = Astro.props;
+const subjects = await getSubjectsFor(course.slug, branch.slug, semester);
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Courses', href: '/courses/' },
+  { label: course.name, href: courseUrl(course.slug) },
+  { label: branch.name, href: branchUrl(course.slug, branch.slug) },
+  { label: `Sem ${semester}` },
+];
+---
+
+<BaseLayout
+  title={`${branch.name} ${course.name} semester ${semester} subjects`}
+  description={`AKTU ${branch.full_name} semester ${semester} subjects, syllabus, notes, and previous-year papers.`}
+  breadcrumbs={breadcrumbs}
+  noindex={subjects.length === 0}
+>
+  <PageHero
+    eyebrow={`${course.name} · ${branch.name}`}
+    title={`Semester ${semester} subjects`}
+    description={`Free study resources for ${branch.full_name} semester ${semester}. Open a subject to see its syllabus, notes, papers, and FAQs.`}
+    breadcrumbs={breadcrumbs}
+  />
+
+  <div class="container-page py-10 md:py-14">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <div>
+        <h2 class="font-display text-2xl text-stone-950">Subjects</h2>
+        <p class="mt-1 text-sm text-stone-600">
+          {subjects.length} {subjects.length === 1 ? 'subject' : 'subjects'} published
+        </p>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <a
+          href={branchUrl(course.slug, branch.slug)}
+          class="inline-flex h-10 items-center rounded-full border border-stone-300 bg-white px-4 text-sm font-medium text-stone-900 shadow-hairline hover:bg-stone-50"
+        >
+          All semesters
+        </a>
+        <a
+          href="https://aktu.ac.in/syllabus.html"
+          rel="noopener"
+          target="_blank"
+          class="inline-flex h-10 items-center rounded-full border border-stone-300 bg-white px-4 text-sm font-medium text-stone-900 shadow-hairline hover:bg-stone-50"
+        >
+          Official syllabus
+        </a>
+      </div>
+    </div>
+
+    {subjects.length > 0 ? (
+      <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {subjects.map((subject) => (
+          <SubjectCard subject={subject} />
+        ))}
+      </div>
+    ) : (
+      <div class="mt-6">
+        <EmptyState
+          title="No published subjects for this semester yet"
+          description="We do not publish empty subject pages. Check the official syllabus, or explore another semester."
+          actionHref={branchUrl(course.slug, branch.slug)}
+          actionLabel="Choose another semester"
+        />
+      </div>
+    )}
+
+    <nav class="mt-10 flex flex-wrap gap-2" aria-label="Other semesters">
+      {getSemesterNumbers(course.slug)
+        .filter((number) => number !== semester)
+        .map((number) => (
+          <a
+            href={semesterUrl(course.slug, branch.slug, number)}
+            class="inline-flex h-9 items-center rounded-full border border-stone-200 bg-white px-3 text-sm text-stone-700 hover:border-stone-300 hover:text-stone-950"
+          >
+            Sem {number}
+          </a>
+        ))}
+    </nav>
+  </div>
+</BaseLayout>

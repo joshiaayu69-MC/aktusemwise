@@ -1,0 +1,12 @@
+.agents/
+dist/
+node_modules/
+.astro/
+package-lock.json
+public/pagefind/
+content-ops/archive/raw/
+content-ops/exports/
+*.pdf
+
+# Long-form docs are hand-written and reviewed as prose.
+*.md
